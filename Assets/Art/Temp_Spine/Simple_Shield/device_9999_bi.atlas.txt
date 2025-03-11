@@ -1,0 +1,7 @@
+device_9999_bi.png
+size:512,512
+filter:Linear,Linear
+pma:true
+bi
+bounds:2,2,246,422
+offsets:1,1,248,424

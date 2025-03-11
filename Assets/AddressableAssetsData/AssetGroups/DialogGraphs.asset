@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DialogGraphs
+  m_EditorClassIdentifier: 
+  m_GroupName: DialogGraphs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ce61a14b24fbb8247b6de325a6db2dda
+  m_SerializeEntries:
+  - m_GUID: dca1bd8ab6c5adc4d8a3e0f7bff362cd
+    m_Address: esdg_45020_campfire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c44e77ad8297be945a2b16620531cb7c
+    m_Address: esdg_45001_wooden_box_coin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33da1d228e5b9ed4c86ab81b59cb9670
+    m_Address: esdg_45012_wooden_box_food
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c25f62739e696649b075cf0307da188
+    m_Address: esdg_45014_wooden_box_weapon_parts
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 089339d9aa01c674995d60f108b66991
+    m_Address: esdg_45003_wooden_box_wood
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4befee6c1579d1e43b4ab328ceaca328
+    m_Address: esdg_45031_altar_blessing
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 82788fcdea99bc1479d21577250b5840, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 117fa3d57d4866d4e9aaaf565c405835, type: 2}
+    - {fileID: 11400000, guid: 2f0ebaedf0326544495e93cb398a1a9b, type: 2}

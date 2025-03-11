@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DiceGame
+  m_EditorClassIdentifier: 
+  m_GroupName: DiceGame
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 461ecf2972b4f1e488f91470ab0ad6cf
+  m_SerializeEntries:
+  - m_GUID: 10f037b4c715c004bbc6fbcd0225df3c
+    m_Address: dice_dg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 82788fcdea99bc1479d21577250b5840, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9b3faf66e65e05d4e8a90e3f17459065, type: 2}
+    - {fileID: 11400000, guid: d096cf6f0db517c419d12c152131995d, type: 2}
