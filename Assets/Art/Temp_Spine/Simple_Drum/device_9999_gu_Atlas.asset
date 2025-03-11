@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
   m_Name: device_9999_gu_Atlas
   m_EditorClassIdentifier: 
+  textureLoadingMode: 0
+  onDemandTextureLoader: {fileID: 0}
   atlasFile: {fileID: 4900000, guid: 811584574ffd67c4d9958f46a37229d1, type: 3}
   materials:
   - {fileID: 2100000, guid: 37bf5573e758e1d4ea1daace1e4b8eee, type: 2}
