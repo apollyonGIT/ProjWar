@@ -57,12 +57,12 @@ namespace World.Enemys
         {
             foreach (var cell in cells)
             {
-                cell.tick();
-
                 if (ctx.is_need_reset)
                 {
                     cell.pos.x -= ctx.reset_dis;
                 }
+
+                cell.tick();
             }
 
             foreach (var cell in fini_cells)

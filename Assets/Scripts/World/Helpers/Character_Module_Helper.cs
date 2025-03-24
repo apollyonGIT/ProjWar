@@ -2,7 +2,7 @@
 using Foundations;
 using System.Collections.Generic;
 using World.Characters;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 
 namespace World.Helpers
 {

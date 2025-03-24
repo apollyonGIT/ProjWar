@@ -46,6 +46,8 @@ namespace AutoCodes
         public System.Collections.Generic.List<uint> component;
         
         public System.Collections.Generic.Dictionary<string, int> sub_monsters;
+        
+        public object diy_obj;
     }
     
     public class monsters

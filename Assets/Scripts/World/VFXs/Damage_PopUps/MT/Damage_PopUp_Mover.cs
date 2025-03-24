@@ -6,7 +6,7 @@ namespace World.VFXs.Damage_PopUps
 {
     public class Damage_PopUp_Mover : Singleton<Damage_PopUp_Mover>, IDamage_PopUp_Mover
     {
-        const float NUM_RELATIVE_SCALE_COEF = 1.5F;
+        const float NUM_RELATIVE_SCALE_COEF =1F;
         const int NUM_SCALE_DMG_MIN = 5;
         const int NUM_SCALE_DMG_MAX = 100;
 

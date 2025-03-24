@@ -1,7 +1,7 @@
 ﻿using AutoCodes;
 using UnityEngine;
 
-namespace World.Devices {
+namespace World.Devices.Device_AI {
     public class Wheel_Track : BasicWheel {
         #region Const
         private const string ANIM_NAME_IDLE = "idle";

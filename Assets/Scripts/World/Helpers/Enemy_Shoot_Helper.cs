@@ -67,7 +67,14 @@ namespace World.Helpers
                         break;
                 }
 
-                p.Init(shoot_dir, projectile_init_pos, angle_1, angle_2, prm_speed, prm_init_speed, Faction.opposite, projectile_record, prm_life_ticks, prm_damage, rot_speed, rot_propulsion);
+                Attack_Data attack_data = new()
+                {
+                    atk = (int)(fire_logic_r.damage),
+                    critical_chance = fire_logic_r.critical_chance,
+                    critical_rate = fire_logic_r.critical_dmg_rate,
+                };
+
+                p.Init(shoot_dir, projectile_init_pos, angle_1, angle_2, prm_speed, prm_init_speed, Faction.opposite, projectile_record, prm_life_ticks, attack_data, rot_speed, rot_propulsion);
                 pmgr.AddProjectile(p);
             }
         }

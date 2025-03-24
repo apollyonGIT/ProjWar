@@ -1,7 +1,7 @@
 ﻿using Commons;
 using Foundations;
 using UnityEngine;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 
 namespace World.Devices.DeviceViews
 {
@@ -19,9 +19,6 @@ namespace World.Devices.DeviceViews
             }
 
             transform.localRotation = EX_Utility.look_rotation_from_left(WorldContext.instance.caravan_dir);
-
-            if (smoke_vfx != null)
-                smoke_vfx.transform.position = transform.position;
 
             if (owner.device_type == Device.DeviceType.melee)
                 transform.localScale = Vector3.one * BattleContext.instance.melee_scale_factor;

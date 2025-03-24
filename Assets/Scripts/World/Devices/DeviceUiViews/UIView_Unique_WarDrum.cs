@@ -1,5 +1,5 @@
 ﻿using UnityEngine.UI;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 
 namespace World.Devices.DeviceUiViews
 {
@@ -22,9 +22,21 @@ namespace World.Devices.DeviceUiViews
             indicator_right.gameObject.SetActive(drum.manual_right_ready);
             indicator_factor_expt.value = drum.attack_factor_expt - 1f;
         }
-        public void ControlDevice()
+
+        public void Attack_1()
         {
-            InputController.instance.SetDeviceControl(owner);
+            if(owner is Unique_War_Drum uwd)
+            {
+                uwd.Attack_1();
+            }
+        }
+
+        public void Attack_2()
+        {
+            if (owner is Unique_War_Drum uwd)
+            {
+                uwd.Attack_2();
+            }
         }
     }
 }

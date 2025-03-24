@@ -1,4 +1,4 @@
-﻿using World.Devices.NewDevice;
+﻿using World.Devices.Device_AI;
 
 namespace World.Devices.DeviceUpgrades
 {

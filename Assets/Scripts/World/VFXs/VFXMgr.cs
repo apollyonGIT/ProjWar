@@ -26,10 +26,12 @@ namespace World.VFXs
         void notify_remove_vfx(VFX vfx);
 
         void notify_reset_vfx();
+        void notify_update_vfx(VFX vfx);
     }
     public class VFXMgr :Model<VFXMgr,IVFXMgrView>,IMgr
     {
         public List<VFX> vfx_list = new();
+        public List<VFX> tick_vfx_list = new();         //需要每帧更新位置的特效
 
         private List<VFX> vfx_need_remove = new();
 
@@ -49,10 +51,13 @@ namespace World.VFXs
             (this as IMgr).init(args);
         }
 
-        public VFX AddVFX(string path,int duration,Vector2 pos)
+        public VFX AddVFX(string path,int duration,Vector2 pos,bool need_tick = false)
         {
             var vfx = new VFX(path, duration, pos);
-            vfx_list.Add(vfx);
+            if (need_tick)
+                tick_vfx_list.Add(vfx);
+            else
+                vfx_list.Add(vfx);
 
             foreach (var view in views)
             {
@@ -62,9 +67,12 @@ namespace World.VFXs
             return vfx;
         }
 
-        public void AddVFX(VFX vfx)
+        public void AddVFX(VFX vfx,bool need_tick = false)      //注意 跟车VFX 只记录相对车的位移
         {
-            vfx_list.Add(vfx);
+            if (need_tick)
+                tick_vfx_list.Add(vfx);
+            else
+                vfx_list.Add(vfx);
 
             foreach (var view in views)
             {
@@ -83,9 +91,25 @@ namespace World.VFXs
                 }
             }
 
+            foreach(var vfx in tick_vfx_list)
+            {
+                vfx.duration--;
+
+                if (vfx.duration <= 0)
+                {
+                    vfx_need_remove.Add(vfx);
+                }
+
+                foreach(var view in views)
+                {
+                    view.notify_update_vfx(vfx);
+                }
+            }
+
             foreach(var vfx in vfx_need_remove)
             {
                 vfx_list.Remove(vfx);
+                tick_vfx_list.Remove(vfx);
 
                 foreach(var view in views)
                 {
@@ -95,7 +119,7 @@ namespace World.VFXs
 
             vfx_need_remove.Clear();
 
-            if (WorldContext.instance.is_need_reset)
+            if (WorldContext.instance.is_need_reset)        //tick_vfx不需要reset,因为他们的位置等于offset + caravan.pos
             {
                 foreach(var vfx in vfx_list)
                 {

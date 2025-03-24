@@ -1,6 +1,7 @@
 ﻿using AutoCodes;
 using Commons;
 using Foundations;
+using System;
 using UnityEngine;
 using World.VFXs;
 using static World.WorldEnum;
@@ -27,7 +28,7 @@ namespace World.Projectiles
         public int life_ticks;
         protected int life_ticks_init;
         public float radius;
-        public int damage;
+        public Attack_Data attack_data;
         public MovementStatus movement_status = MovementStatus.normal;
         public Faction faction;
 
@@ -42,6 +43,8 @@ namespace World.Projectiles
         protected float init_speed;  // For Caculating Actual Damage When Hit Target
         protected float rot_speed;
         protected float rot_propulsion;
+
+        public Action<ITarget> hit_target_event;
 
         Vector2 ITarget.Position => position;
 
@@ -65,7 +68,7 @@ namespace World.Projectiles
 
         public virtual void Init(Vector2 dir, Vector2 position,
             float rnd_angle_1, float rnd_angle_2, float speed, float init_speed,
-            Faction f, projectile _desc, int life_ticks, int damage, float rot_speed, float rot_propulsion)
+            Faction f, projectile _desc, int life_ticks,Attack_Data atk_data, float rot_speed, float rot_propulsion,Action<ITarget> hit_event = null)
         {
 
             desc = _desc;
@@ -75,11 +78,12 @@ namespace World.Projectiles
 
             radius = desc.radius;
             faction = f;
-            this.damage = damage;
+            this.attack_data = atk_data;
             this.rot_speed = rot_speed;
             this.rot_propulsion = rot_propulsion;
+            hit_target_event = hit_event;   
 
-            var rnd = Random.Range(rnd_angle_1, rnd_angle_2);
+            var rnd = UnityEngine.Random.Range(rnd_angle_1, rnd_angle_2);
             direction = (Quaternion.AngleAxis(rnd, Vector3.forward) * dir).normalized;
             velocity = direction * speed + WorldContext.instance.caravan_velocity;
 
@@ -107,8 +111,6 @@ namespace World.Projectiles
                     rotate(); // Rotate
                     HitGround();
                     HitEnemy();
-                    HitDevice();
-                    HitCaravan();
                     break;
                 case MovementStatus.in_object:
                     movement_in_object();
@@ -166,7 +168,7 @@ namespace World.Projectiles
             switch (expected_movement_status)
             {
                 case MovementStatus.in_object:
-                    var ts = in_target as Devices.NewDevice.IShield;
+                    var ts = in_target as Devices.Device_AI.IShield;
 
                     // Countered by Shield
                     if (ts != null && ts.Hitting_Time)
@@ -195,17 +197,6 @@ namespace World.Projectiles
 
         }
         public virtual void HitGround()
-        {
-
-        }
-        public virtual void HitDevice()
-        {
-
-        }
-        /// <summary>
-        /// 目前设备受伤和车体受伤逻辑一致，先全部做到设备受伤内
-        /// </summary>
-        public virtual void HitCaravan()
         {
 
         }

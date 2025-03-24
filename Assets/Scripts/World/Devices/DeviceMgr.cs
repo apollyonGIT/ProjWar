@@ -3,7 +3,7 @@ using Foundations.Tickers;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 
 namespace World.Devices
 {
@@ -26,8 +26,6 @@ namespace World.Devices
             { "BasicShield",() => new BasicShield()},
             { "War_Drum",() => new Unique_War_Drum()},
             { "Catching_Flower",() => new Unique_Catching_Flower()},
-            { "BasicMelee",()=> new BasicMelee()},
-            { "BasicHook",()=> new BasicHook()},
             { "NewBasicShooter",()=> new NewBasicShooter()},
             { "NewBasicMelee",()=>new NewBasicMelee()},
             { "NewBasicHook",()=> new NewBasicHook()},
@@ -100,10 +98,6 @@ namespace World.Devices
                     if (device == null)
                         continue;
                     device.position -= new Vector2(WorldContext.instance.reset_dis, 0);
-                    if (device is IAim aim && aim.Aim != Vector2.zero)
-                    {
-                        aim.Aim -= new Vector2(WorldContext.instance.reset_dis, 0);
-                    }
                 }
             }
 

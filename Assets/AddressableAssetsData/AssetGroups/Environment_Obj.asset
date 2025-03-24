@@ -6162,11 +6162,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1630a1805d4aee346bef79d1f78dc8ce
-    m_Address: 2b-2000-fixed-cloud-01
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dbcc2e5a01aa2784fad676a3e42fe5b7
     m_Address: 7a-45-rnd-tree-02
     m_ReadOnly: 0

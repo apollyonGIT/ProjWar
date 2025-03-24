@@ -68,23 +68,23 @@ namespace World.Enemys.BT
             {
                 case EN_dungeon_bat_FSM.Default:
                 case EN_dungeon_bat_FSM.Move:
-                    if (target_locked_on == null)
-                        lock_target();
+                    if (Target_Locked_On == null)
+                        Lock_Target();
 
-                    if (target_locked_on == null)
+                    if (Target_Locked_On == null)
                         caravan_pos_focus = cell.mgr.ctx.caravan_pos + Vector2.up;
                     else
                     {
-                        caravan_pos_focus = target_locked_on.Position + Vector2.up;
+                        caravan_pos_focus = Get_Target_Pos().Value;
 
                         var abs_dis_x = Mathf.Abs(cell.pos.x - caravan_pos_focus.x);
-                        if (ticks_in_current_state >= CHARGE_CD)
+                        if (Check_State_Time(CHARGE_CD))
                         {
                             if (abs_dis_x > 3f && abs_dis_x < 12f && cell.pos.y < caravan_pos_focus.y + abs_dis_x * 0.6f)
                                 FSM_change_to(EN_dungeon_bat_FSM.Charge);
                         }
                         else
-                            ticks_in_current_state++;
+                            Ticks_In_Current_State++;
                     }
 
                     set_speed_expt(cell, FLY_SPEED_IDLE);
@@ -94,14 +94,14 @@ namespace World.Enemys.BT
 
                 case EN_dungeon_bat_FSM.Charge:
                     // Back to Move State if Condition Met
-                    if (target_locked_on == null || ticks_in_current_state >= MAX_CHARGE_TICKS)
+                    if (Target_Locked_On == null || Check_State_Time(MAX_CHARGE_TICKS))
                     {
                         FSM_change_to(EN_dungeon_bat_FSM.Move);
                         break;
                     }
 
-                    ticks_in_current_state++;
-                    caravan_pos_focus = target_locked_on.Position + Vector2.up;
+                    Ticks_In_Current_State++;
+                    caravan_pos_focus = Get_Target_Pos().Value;
 
                     set_speed_expt(cell, FLY_SPEED_BURST);
 
@@ -114,7 +114,7 @@ namespace World.Enemys.BT
 
                         if ((dis_to_focus_pos.x + (charge_to_right ? 1f : -1f) < 0) == charge_to_right)
                         {
-                            ticks_in_current_state = (ushort)Mathf.Max(MAX_CHARGE_TICKS - 30, ticks_in_current_state);
+                            bat_end_charge_earlier(30);
                             charge_over_distance = true;
                         }
                     }
@@ -130,9 +130,9 @@ namespace World.Enemys.BT
                             atk = cell._desc.basic_atk
                         };
 
-                        target_locked_on.hurt(attack_data);
+                        Target_Locked_On.hurt(attack_data);
                         can_bite = false;
-                        ticks_in_current_state = (ushort)Mathf.Max(MAX_CHARGE_TICKS - 120, ticks_in_current_state);
+                        bat_end_charge_earlier(120);
                     }
                     break;
 
@@ -148,12 +148,12 @@ namespace World.Enemys.BT
         private void FSM_change_to(EN_dungeon_bat_FSM state)
         {
             m_state = state;
-            ticks_in_current_state = 0;
+            Ticks_In_Current_State = 0;
             switch (state)
             {
                 case EN_dungeon_bat_FSM.Default:
                     self.mover.move_type = EN_enemy_move_type.Fly;
-                    ticks_in_current_state = (ushort)Random.Range(0, CHARGE_CD);
+                    Ticks_In_Current_State = (ushort)Random.Range(0, CHARGE_CD);
                     break;
                 case EN_dungeon_bat_FSM.Move:
                     break;
@@ -171,6 +171,11 @@ namespace World.Enemys.BT
         {
             var v_expt = v + cell.mgr.ctx.caravan_velocity.x * 0.2f;
             cell.speed_expt = Monster_Common_Action.Get_Speed_Expt_By_Clamp(v_expt, FLY_SPEED_MAX);
+        }
+
+        private void bat_end_charge_earlier(int ticks_earlier)
+        {
+            Ticks_In_Current_State = (ushort)Mathf.Max(MAX_CHARGE_TICKS - ticks_earlier, Ticks_In_Current_State);
         }
 
 

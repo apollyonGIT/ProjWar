@@ -28,6 +28,8 @@ namespace AutoCodes
         public float feedback_0;
         
         public float feedback_1;
+        
+        public object diy_obj;
     }
     
     public class device_wheels

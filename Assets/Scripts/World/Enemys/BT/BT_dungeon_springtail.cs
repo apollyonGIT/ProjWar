@@ -26,10 +26,10 @@ namespace World.Enemys.BT
 
         const float BITE_ATTACK_DISTANCE = 1F;
 
-        const short TICKS_PER_SEC_IN_SPINE = 30;
-        const short JUMP_TICK_BY_SPINE = 12 * Config.PHYSICS_TICKS_PER_SECOND / TICKS_PER_SEC_IN_SPINE;
-        const short ATK_DMG_TICK_BY_SPINE = 4 * Config.PHYSICS_TICKS_PER_SECOND / TICKS_PER_SEC_IN_SPINE;
-        const short ATK_END_TICK_BY_SPINE = 8 * Config.PHYSICS_TICKS_PER_SECOND / TICKS_PER_SEC_IN_SPINE;
+        const ushort TICKS_PER_SEC_IN_SPINE = 30;
+        const ushort JUMP_TICK_BY_SPINE = 12 * Config.PHYSICS_TICKS_PER_SECOND / TICKS_PER_SEC_IN_SPINE;
+        const ushort ATK_DMG_TICK_BY_SPINE = 4 * Config.PHYSICS_TICKS_PER_SECOND / TICKS_PER_SEC_IN_SPINE;
+        const ushort ATK_END_TICK_BY_SPINE = 8 * Config.PHYSICS_TICKS_PER_SECOND / TICKS_PER_SEC_IN_SPINE;
         #endregion
 
         private enum EN_dungeon_springtail_FSM
@@ -84,14 +84,14 @@ namespace World.Enemys.BT
                     break;
 
                 case EN_dungeon_springtail_FSM.Idle:
-                    if (target_locked_on == null || ticks_target_has_been_locked_on >= TARGET_RESELECTED_TICK)
-                        lock_target();
+                    if (Target_Locked_On == null || Ticks_Target_Has_Been_Locked_On >= TARGET_RESELECTED_TICK)
+                        Lock_Target();
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
                         if (Jump_CD_Ticks <= 0)
                         {
-                            var delta_x = target_locked_on.Position.x - cell.pos.x;
+                            var delta_x = Target_Locked_On.Position.x - cell.pos.x;
                             cell.dir.x = delta_x;
                             Jump_Mode = Mathf.Abs(delta_x) < BITE_ATTACK_DISTANCE ? IEnemy_Can_Jump.Enemy_Jump_Mode.Jump_Around : IEnemy_Can_Jump.Enemy_Jump_Mode.Jump_To;
                             FSM_change_to(EN_dungeon_springtail_FSM.Jumping);
@@ -103,31 +103,31 @@ namespace World.Enemys.BT
                     break;
 
                 case EN_dungeon_springtail_FSM.Jumping:
-                    ticks_in_current_state++;
+                    Ticks_In_Current_State++;
 
                     if (Jump_Finished && mover.move_type == EN_enemy_move_type.Slide)
                     {
                         FSM_change_to(EN_dungeon_springtail_FSM.Idle);
-                        target_locked_on = null;
+                        Target_Locked_On = null;
                         break;
                     }
-                    else if (target_locked_on != null)
+                    else if (Target_Locked_On != null)
                     {
-                        var dis = target_locked_on.Position - cell.pos;
+                        var dis = Target_Locked_On.Position - cell.pos;
                         if (melee_atk_cd <= 0 && dis.magnitude < BITE_ATTACK_DISTANCE)
                         {
                             FSM_change_to(EN_dungeon_springtail_FSM.Atk_Melee);
                             cell.dir.x = dis.x;
                         }
-                        else if (!Jump_Finished && ticks_in_current_state >= JUMP_TICK_BY_SPINE)
-                            I_Jump.Jump_By_Mode(cell, target_locked_on.Position, JUMP_CD);
+                        else if (!Jump_Finished && Check_State_Time(JUMP_TICK_BY_SPINE))
+                            I_Jump.Jump_By_Mode(cell, Target_Locked_On.Position, JUMP_CD);
                     }
 
                     break;
 
                 case EN_dungeon_springtail_FSM.Atk_Melee:
-                    ticks_in_current_state++;
-                    if (!melee_atk_finished && ticks_in_current_state > ATK_DMG_TICK_BY_SPINE)
+                    Ticks_In_Current_State++;
+                    if (!melee_atk_finished && Check_State_Time(ATK_DMG_TICK_BY_SPINE))
                     {
                         melee_atk_finished = true;
 
@@ -136,10 +136,10 @@ namespace World.Enemys.BT
                             atk = cell._desc.basic_atk
                         };
 
-                        target_locked_on.hurt(attack_data);
+                        Target_Locked_On.hurt(attack_data);
                         melee_atk_cd = MELEE_ATK_CD;
                     }
-                    else if (ticks_in_current_state > ATK_END_TICK_BY_SPINE)
+                    else if (Check_State_Time(ATK_END_TICK_BY_SPINE))
                         FSM_change_to(mover.move_type == EN_enemy_move_type.Slide ? EN_dungeon_springtail_FSM.Idle : EN_dungeon_springtail_FSM.Default);
                     break;
 
@@ -151,8 +151,8 @@ namespace World.Enemys.BT
             if (melee_atk_cd > 0)
                 melee_atk_cd--;
 
-            if (target_locked_on != null)
-                ticks_target_has_been_locked_on++;
+            if (Target_Locked_On != null)
+                Ticks_Target_Has_Been_Locked_On++;
 
             mover.move();
 
@@ -162,7 +162,7 @@ namespace World.Enemys.BT
         private void FSM_change_to(EN_dungeon_springtail_FSM expected_FSM)
         {
             m_state = expected_FSM;
-            ticks_in_current_state = 0;
+            Ticks_In_Current_State = 0;
             switch (expected_FSM)
             {
                 case EN_dungeon_springtail_FSM.Default:

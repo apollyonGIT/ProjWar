@@ -88,15 +88,12 @@ namespace World.Enemys
                 {
                     progress -= 100f;
 
-                    Enemy cell = Enemy_Init_Helper.init_enemy_instance(r.monster_id);
-
-                    cell.pos = new(r.pos.x + mgr.ctx.caravan_pos.x, r.pos.y);
-                    cell.bt.init(cell, r.init_state);
-
-                    cell._group_desc = r;
-
-                    load_cell(cell);
-                    cell.is_init = true;
+                    var generate_count = r.generate_count_area == null ? 1 : Random.Range((int)r.generate_count_area.Value.x, (int)r.generate_count_area.Value.y + 1);
+                    for (int i = 0; i < generate_count; i++)
+                    {
+                        var cell = create_single_cell_directly(r.monster_id, r.pos, r.init_state);
+                        cell._group_desc = r;
+                    }
                 }
 
                 progress += (r.k_distance * ctx.caravan_velocity.x + k_time) * Config.PHYSICS_TICK_DELTA_TIME;
@@ -121,20 +118,20 @@ namespace World.Enemys
         public void add_enemy_directly_req(int delay_tick, uint monster_id, Vector2 pos, string init_state)
         {
             Request_Helper.delay_do($"add_enemy_req_{monster_id}", delay_tick, 
-                (_) => { try_create_single_cell_directly(monster_id, pos, init_state); });
+                (_) => { create_single_cell_directly(monster_id, pos, init_state); });
+        }
 
 
-            #region 子函数 try_create_single_cell_directly
-            void try_create_single_cell_directly(uint monster_id, Vector2 pos, string init_state)
-            {
-                Enemy cell = Enemy_Init_Helper.init_enemy_instance(monster_id);
-                cell.pos = new(pos.x + mgr.ctx.caravan_pos.x, pos.y);
-                cell.bt.init(cell, init_state);
+        Enemy create_single_cell_directly(uint monster_id, Vector2 pos, string init_state)
+        {
+            Enemy cell = Enemy_Init_Helper.init_enemy_instance(monster_id);
+            cell.pos = new(pos.x + mgr.ctx.caravan_pos.x, pos.y);
+            cell.bt.init(cell, init_state);
 
-                load_cell(cell);
-                cell.is_init = true;
-            }
-            #endregion
+            load_cell(cell);
+            cell.is_init = true;
+
+            return cell;
         }
     }
 }

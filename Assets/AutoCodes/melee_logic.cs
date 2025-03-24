@@ -21,6 +21,8 @@ namespace AutoCodes
         
         public bool can_blaze;
         
+        public string SE_attack_begin = "";
+        
         public System.ValueTuple<float, float> hit_period;
         
         public System.Nullable<System.ValueTuple<float, float>> hit_period_2;
@@ -31,7 +33,13 @@ namespace AutoCodes
         
         public int damage;
         
+        public int critical_chance;
+        
+        public int critical_dmg_rate;
+        
         public float knockback_ft;
+        
+        public object diy_obj;
     }
     
     public class melee_logics

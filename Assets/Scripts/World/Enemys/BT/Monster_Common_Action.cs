@@ -1,6 +1,7 @@
 ﻿using Commons;
 using System.Collections.Generic;
 using UnityEngine;
+using World.Caravans;
 using World.Helpers;
 
 
@@ -20,7 +21,7 @@ namespace World.Enemys.BT
             if (AutoCodes.fire_logics.TryGetValue($"{monster_r.fire_logic}", out var fire_logic_r))
             {
                 Shoot_CD_Max = fire_logic_r.cd;
-                Shoot_CD = Shoot_CD_Max;
+                Shoot_CD = Random.Range(0, Shoot_CD_Max);
                 if (fire_logic_r.speed.Item2 == 0)
                     Projectile_Speed = fire_logic_r.speed.Item1;
                 else
@@ -32,10 +33,9 @@ namespace World.Enemys.BT
         {
             actor.try_get_bone_pos(muzzle_bone_name, out Vector2 muzzle_pos);
             Vector2 shoot_dir;
-            if (Monster_Common_Action.Parabolic_Trajectory_Prediction(muzzle_pos, expected_pos, Projectile_Speed, out Vector2 target_dir))
-                shoot_dir = target_dir;
-            else
-                shoot_dir = expected_pos - muzzle_pos;
+            if (!Monster_Common_Action.Parabolic_Trajectory_Prediction(muzzle_pos, expected_pos, Projectile_Speed, out Vector2 target_dir))
+                target_dir.y = Mathf.Max(target_dir.y, Mathf.Abs(target_dir.x));
+            shoot_dir = target_dir;
             Enemy_Shoot_Helper.do_shoot(actor, muzzle_pos, shoot_dir);
             Shoot_Finished = true;
             Shoot_CD = Shoot_CD_Max;
@@ -195,20 +195,37 @@ namespace World.Enemys.BT
         }
     }
 
-    // ----------------------------------------------------------------------------------------------------------------------
+    // ======================================================================================================================
 
     public abstract class Monster_Basic_BT
     {
-        protected ushort ticks_in_current_state;
-        protected ushort ticks_target_has_been_locked_on;
-        protected ITarget target_locked_on;
+        protected ushort Ticks_In_Current_State;
+        protected ushort Ticks_Target_Has_Been_Locked_On;
+        protected ITarget Target_Locked_On;
 
-        protected void lock_target()
+        protected void Lock_Target()
         {
             // can only be used when target is null
             SeekTarget_Helper.random_player_part(out var target);
-            target_locked_on = target;
-            ticks_target_has_been_locked_on = 0;
+            Target_Locked_On = target;
+            Ticks_Target_Has_Been_Locked_On = 0;
+        }
+
+        protected Vector2? Get_Target_Pos()
+        {
+            if (Target_Locked_On == null)
+                return null;
+
+            // 车体的坐标逻辑位置紧贴地面，需要添加 Y_offset 以修正瞄准位置。 
+            if (Target_Locked_On is Caravan)
+                return Target_Locked_On.Position + Vector2.up;
+
+            return Target_Locked_On.Position;
+        }
+
+        protected bool Check_State_Time(ushort ticks)
+        {
+            return Ticks_In_Current_State >= ticks;
         }
 
         virtual protected void basic_die(Enemy self)
@@ -221,9 +238,10 @@ namespace World.Enemys.BT
         public void get_killed(Enemy self)
         {
             basic_die(self);
-        }  
+        }
     }
 
+    // ======================================================================================================================
 
     internal static class Monster_Common_Action
     {
@@ -238,7 +256,7 @@ namespace World.Enemys.BT
             var discriminant = (H - Config.current.gravity * Mathf.Pow(L / init_speed, 2)) / Mathf.Sqrt(L * L + H * H);
             if (Mathf.Abs(discriminant) > 1)
             {
-                target_dir = Vector2.zero;
+                target_dir = target_pos - start_pos;
                 return false;
             }
             var M = Mathf.Atan2(-H, L);

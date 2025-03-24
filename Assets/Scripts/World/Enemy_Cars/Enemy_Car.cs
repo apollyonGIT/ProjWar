@@ -159,11 +159,6 @@ namespace World.Enemy_Cars
 
                     device.position -= new Vector2(WorldContext.instance.reset_dis, 0);
                     device.velocity = velocity;
-
-                    if (device is IAim aim && aim.Aim != Vector2.zero)
-                    {
-                        aim.Aim -= new Vector2(WorldContext.instance.reset_dis, 0);
-                    }
                 }
             }
 

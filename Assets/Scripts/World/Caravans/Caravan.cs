@@ -5,7 +5,7 @@ using Spine;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 using World.Helpers;
 using World.Widgets;
 

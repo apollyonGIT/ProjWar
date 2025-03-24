@@ -36,22 +36,33 @@ MonoBehaviour:
   caravan_id: 100101
   init_wheel: 1210101
   init_device_in_slot_top: 1330102
-  init_device_in_slot_front_top: 1310103
-  init_device_in_slot_back_top: 1340101
+  init_device_in_slot_front_top: 1320109
+  init_device_in_slot_back_top: 0
   init_device_in_slot_front: 1320104
-  init_device_in_slot_back: 1310101
+  init_device_in_slot_back: 1310102
   init_roles: 993a00009a3a00009b3a0000
+  per_overweight_slot_weight: 300
+  basic_backpack_slot_num: 4
   travel_scene_camera_offset_x: 0
   cam_pos_offset_y: 3.6
   cam_pos_offset_z: 0
   free_camera: 0
-  normal_work_ability: 100
-  fix_device_job_effect: 0.05
-  fix_caravan_job_effect: 0.02
-  loot_pickup_distance: 0.2
+  trigger_length: 12.8
+  notice_length_1: 49.9
+  notice_length_2: 5
+  rope_max_length: 12
+  rope_min_length: 0.2
+  rope_elasticity: 100
+  loot_pickup_distance: 0.4
   loot_attraction_power: 10
   coin_surface_bounce_coef: 0.6
   caravan_vel2_screen_bounce: 0.5
+  monster_grip: 40
+  fling_off_dis: 40
+  pressure_threshold: 2000
+  time_pressure_min: 15
+  time_pressure_max: 60
+  pressure_kill_score: 40
   bullet_bounce_threshold_ekmin: 100
   bullet_surface_bounce_coef: 0.4
   bullet_bounce_threshold_vmax: 100
@@ -59,21 +70,13 @@ MonoBehaviour:
   arrow_penetration_loss: 12
   bullet_penetration_loss: 9
   bullet_enemy_bounce_coef: 0.2
-  trigger_length: 12.8
-  notice_length_1: 49.9
-  notice_length_2: 5
-  monster_grip: 40
-  fling_off_dis: 40
-  pressure_threshold: 2000
-  time_pressure_min: 15
-  time_pressure_max: 60
-  pressure_kill_score: 40
-  rope_max_length: 12
-  rope_min_length: 0.2
-  rope_elasticity: 100
+  repairing_counts: 3
+  repairing_cd_ticks: 720
   devicedestroy_vfx: vfx_device_broken_explosion
-  devicesmoke_vfx: vfx_device_broken_smoke
-  per_overweight_slot_weight: 300
-  basic_backpack_slot_num: 4
+  devicesmoke_vfx: smoke_vfx
+  normal_work_ability: 100
+  fix_device_job_effect: 0.05
+  fix_caravan_job_effect: 0.02
   is_load_devices: 1
   is_load_enemys: 1
+  audio_test: audio_test

@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using World.Devices.DeviceUpgrades;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 using World.Helpers;
 using World.VFXs.DeviceDestroy_VFXs;
 using static World.WorldEnum;
+using World.Devices.DeviceEmergencies;
 
 namespace World.Devices
 {
@@ -27,6 +28,9 @@ namespace World.Devices
         void notify_disable();
         void notify_enable();
         void notify_player_oper(bool oper);
+        void notify_add_emergency(DeviceEmergency de);
+
+        void notify_remove_emergency(DeviceEmergency de);
     }
 
 
@@ -94,6 +98,7 @@ namespace World.Devices
         public bool player_oper { get; protected set; }
 
         public List<DeviceUpgrade> upgrades = new();
+        public List<DeviceEmergency> emergrences = new();
 
         Action<ITarget> m_tick_handle;
 
@@ -141,6 +146,23 @@ namespace World.Devices
             foreach (var module in module_list)
             {
                 module.tick();
+            }
+
+            foreach(var em in emergrences)
+            {
+                em.tick();
+            }
+
+            for(int i = emergrences.Count - 1; i >= 0; i--)
+            {
+                foreach(var view in views)
+                {
+                    view.notify_remove_emergency(emergrences[i]);
+                }
+                if (emergrences[i].removed)
+                {
+                    emergrences.RemoveAt(i);
+                }
             }
 
             foreach (var view in views)
@@ -237,6 +259,10 @@ namespace World.Devices
             var dmg_data = Hurt_Calc_Helper.dmg_to_device(attack_data, $"{m_desc.id},{m_desc.sub_id}");
 
             Hurt(dmg_data.dmg);
+            if(attack_data.ignite > 0)
+            {
+                IgniteDevice((int)attack_data.ignite);
+            }
         }
 
         public void OpenCollider(string collider_name, Action<ITarget> enter_e = null, Action<ITarget> stay_e = null, Action<ITarget> exit_e = null)
@@ -263,6 +289,26 @@ namespace World.Devices
             }
         }
 
+        public void IgniteDevice(int fire_value)
+        {
+            foreach(var emer in emergrences)
+            {
+                if(emer is DeviceFired df)
+                {
+                    df.AddFire(fire_value);
+                    return;
+                }
+            }
+
+            var fire = new DeviceFired(fire_value);
+            emergrences.Add(fire);
+
+            foreach(var view in views)
+            {
+                view.notify_add_emergency(fire);
+            }
+        }
+
         float ITarget.distance(ITarget target)
         {
             return Vector2.Distance(position, target.Position);
@@ -283,6 +329,9 @@ namespace World.Devices
             }
         }
 
+        /// <summary>
+        /// 好像没用了
+        /// </summary>
         public virtual void OperateClick()
         {
 

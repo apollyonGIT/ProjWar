@@ -141,6 +141,7 @@ namespace World.Environments
                     position = position + (Vector2)g.obj.transform.localPosition,
                     default_pos = Vector2.zero,
                 };
+                e_obj.default_pos.y = Road_Info_Helper.try_get_altitude(e_obj.position.x + e_obj.default_pos.x);
                 encounter_layers.Add((g_trans.position.z, e_obj));
                 foreach (var view in views)
                 {
@@ -198,8 +199,6 @@ namespace World.Environments
             List<(float, EnvironmentEncounterObj)> fs = new();          //删除过去的场景
             foreach (var e in encounter_layers)
             {
-                e.Item2.default_pos.y = Road_Info_Helper.try_get_altitude(e.Item2.position.x + e.Item2.default_pos.x);
-
                 if (need_remove_encounter_obj(e))
                 {
                     fs.Add(e);

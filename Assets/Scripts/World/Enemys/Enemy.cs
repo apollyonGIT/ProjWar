@@ -31,11 +31,15 @@ namespace World.Enemys
     public interface IEnemyView : IModelView<Enemy>
     {
         void notify_on_tick1();
+
+        void notify_on_hurt();
     }
 
 
     public class Enemy : Model<Enemy, IEnemyView>, ITarget
     {
+        public string GUID;
+
         public Vector2 pos;
         public Vector2 dir;
 
@@ -111,6 +115,8 @@ namespace World.Enemys
 
         public Enemy(uint id)
         {
+            GUID = Guid.NewGuid().ToString();
+
             battle_ctx = BattleContext.instance;
 
             Mission.instance.try_get_mgr("EnemyMgr", out mgr);
@@ -272,6 +278,11 @@ namespace World.Enemys
             hp_self -= Mathf.FloorToInt(dmg * hp_self / hp);
 
             Damage_PopUp.instance.create_cell(dmg_data, pos);
+
+            foreach (var view in views)
+            {
+                view.notify_on_hurt();
+            }
         }
 
 

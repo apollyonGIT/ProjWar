@@ -1,5 +1,4 @@
 ﻿using Foundations.DialogGraphs;
-using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -22,7 +21,8 @@ namespace Foundation_Editors.DialogGraphs
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            this.AddManipulator(new SaveManipulator<DialogGraphView>(this));
+            this.AddManipulator(new SaveManipulator());
+            this.AddManipulator(new CopyManipulator());
 
             GridBackground grid = new();
             Insert(0, grid);
@@ -50,12 +50,6 @@ namespace Foundation_Editors.DialogGraphs
             });
 
             return ret;
-        }
-
-
-        public void save()
-        {
-            DialogGraphEditor_Utility.save_graph(asset, this);
         }
     }
 }

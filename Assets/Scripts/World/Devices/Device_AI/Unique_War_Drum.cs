@@ -2,7 +2,8 @@
 using Foundations.Tickers;
 using System.Collections.Generic;
 using UnityEngine;
-using World.Devices.NewDevice;
+using World.Audio;
+using World.Devices.Device_AI;
 using World.Helpers;
 using static World.WorldEnum;
 
@@ -12,17 +13,16 @@ namespace World.Devices
     {
         #region CONST
         private const string ANIM_IDLE = "idle";
-        private const string ANIM_ATTACK = "attack";
+        private const string ANIM_ATTACK_L = "attack_1";
+        private const string ANIM_ATTACK_R = "attack_2";
         private const string ANIM_BROKEN = "idle";
-        private const string BONE_FOR_ROTATION = "control";
+        //private const string BONE_FOR_ROTATION = "control";
 
         private const float EXPLOSION_EFFECT_MIN = 0.5F;
 
-        private const float ATK_EVENT_TIME_1 = 1f / 20f;
-        private const float ATK_EVENT_TIME_2 = 11f / 20f;
-        private const float ATK_HALF_WAY = 0.5f;
+        private const float ATK_EVENT_TIME_PERCENT = 13f / 20f;
 
-        private const int ATTACK_DELAY = 20;
+        private const int AUTO_ATTACK_DELAY = 20;
         #endregion
 
         private enum Device_War_Drum_FSM
@@ -36,14 +36,13 @@ namespace World.Devices
         private List<ITarget> targets;
         private Request request;
 
-        private float attack_factor_current = 1f;
         public float attack_factor_expt = 1f;
         private float attack_range;
 
-        public bool manual_left_ready => fsm == Device_War_Drum_FSM.idle;
-        public bool manual_right_ready => fsm == Device_War_Drum_FSM.attack && attack_factor_current == 0;
-        private bool auto_left_ready => !player_oper && has_target();
-        private bool auto_right_ready => !player_oper && has_target() && attack_factor_current == 0;
+        private bool will_atk_right;
+
+        public bool manual_left_ready => fsm == Device_War_Drum_FSM.idle && !will_atk_right;
+        public bool manual_right_ready => fsm == Device_War_Drum_FSM.idle && will_atk_right;
 
         public float Damage_Increase { get; set; }
         public float Knockback_Increase { get; set; }
@@ -63,50 +62,48 @@ namespace World.Devices
             base.InitData(rc);
 
             bones_direction.Clear();
-            bones_direction.Add(BONE_FOR_ROTATION, Vector2.up);
+
+            other_logics.TryGetValue(desc.other_logic.ToString(), out var logic);
 
             attack_range = desc.basic_range.Item2;
 
-            anim_events.Add(new AnimEvent()
+            #region AnimInfo
+            var atk_anim_l_hit = new AnimEvent()
             {
-                anim_name = ANIM_ATTACK,
-                percent = ATK_EVENT_TIME_1,
+                anim_name = ANIM_ATTACK_L,
+                percent = ATK_EVENT_TIME_PERCENT,
                 anim_event = (Device d) =>
                 {
                     BoardCast_Helper.to_all_target(explosion);
+                    AudioSystem.instance.PlayOneShot(logic.se_1);
                 }
-            });
+            };
 
-            // 敲鼓一下之后，动画停止
-            anim_events.Add(new AnimEvent()
+            var atk_anim_l_end = new AnimEvent()
             {
-                anim_name = ANIM_ATTACK,
-                percent = ATK_HALF_WAY,
-                anim_event = (Device d) =>
-                {
-                    change_factor_of_anim_speed(0);
-                }
-            });
-
-            anim_events.Add(new AnimEvent()
-            {
-                anim_name = ANIM_ATTACK,
-                percent = ATK_EVENT_TIME_2,
-                anim_event = (Device d) =>
-                {
-                    BoardCast_Helper.to_all_target(explosion);
-                }
-            });
-
-            anim_events.Add(new AnimEvent()
-            {
-                anim_name = ANIM_ATTACK,
+                anim_name = ANIM_ATTACK_L,
                 percent = 1,
+                anim_event = (Device d) => FSM_change_to(Device_War_Drum_FSM.idle)
+            };
+
+            var atk_anim_r_hit = new AnimEvent()
+            {
+                anim_name = ANIM_ATTACK_R,
+                percent = ATK_EVENT_TIME_PERCENT,
                 anim_event = (Device d) =>
                 {
-                    FSM_change_to(Device_War_Drum_FSM.idle);
+                    BoardCast_Helper.to_all_target(explosion);
+                    AudioSystem.instance.PlayOneShot(logic.se_1);
                 }
-            });
+            };
+
+            var atk_anim_r_end = new AnimEvent()
+            {
+                anim_name = ANIM_ATTACK_R,
+                percent = 1,
+                anim_event = (Device d) => FSM_change_to(Device_War_Drum_FSM.idle)
+            };
+
             #region 子函数 explosion
             void explosion(ITarget target)
             {
@@ -124,7 +121,7 @@ namespace World.Devices
                 if (dis >= attack_range)  //爆炸范围
                     return;
 
-                if (target.Faction != Faction.player)
+                if (target.Faction != faction)
                 {
 
                     // Make Damage
@@ -132,16 +129,23 @@ namespace World.Devices
 
                     Attack_Data attack_data = new()
                     {
-                        atk = Mathf.CeilToInt(desc.basic_damage * dis_coef * (1 + Damage_Increase))
+                        atk = Mathf.CeilToInt(logic.damage * dis_coef * (1 + Damage_Increase))
                     };
 
                     target.hurt(attack_data);
 
                     // Make KnockBack
-                    target.impact(impact_source_type.melee, position, target.Position, 19f * dis_coef * (1 + Knockback_Increase));
+                    target.impact(impact_source_type.melee, position, target.Position, logic.knockback_ft * dis_coef * (1 + Knockback_Increase));
                 }
             }
             #endregion
+
+            #endregion
+
+            anim_events.Add(atk_anim_l_hit);
+            anim_events.Add(atk_anim_l_end);
+            anim_events.Add(atk_anim_r_hit);
+            anim_events.Add(atk_anim_r_end);
         }
 
         public override void tick()
@@ -152,8 +156,6 @@ namespace World.Devices
             switch (fsm)
             {
                 case Device_War_Drum_FSM.idle:
-                    attack_factor_expt -= (attack_factor_expt - 1) * 0.01f;
-                    break;
                 case Device_War_Drum_FSM.attack:
                     attack_factor_expt -= (attack_factor_expt - 1) * 0.01f;
                     break;
@@ -178,7 +180,8 @@ namespace World.Devices
                     ChangeAnim(ANIM_IDLE, true);
                     break;
                 case Device_War_Drum_FSM.attack:
-                    ChangeAnim(ANIM_ATTACK, false);
+                    ChangeAnim(will_atk_right ? ANIM_ATTACK_R : ANIM_ATTACK_L, false);
+                    will_atk_right = !will_atk_right;
                     break;
                 case Device_War_Drum_FSM.broken:
                     ChangeAnim(ANIM_BROKEN, true);
@@ -190,11 +193,8 @@ namespace World.Devices
 
         private void change_factor_of_anim_speed(float f)
         {
-            attack_factor_current = f;
             foreach (var view in views)
-            {
-                view.notify_change_anim_speed(attack_factor_current);
-            }
+                view.notify_change_anim_speed(f);
         }
 
 
@@ -206,25 +206,14 @@ namespace World.Devices
             switch (fsm)
             {
                 case Device_War_Drum_FSM.idle:
-                    if (auto_left_ready)
-                        if (Current_Interval <= 0)
-                        {
-                            Attack_1();
-                            Current_Interval = ATTACK_DELAY;
-                        }
-                        else
-                            Current_Interval--;
-                    break;
-
-                case Device_War_Drum_FSM.attack:
-                    if (auto_right_ready)
-                        if (Current_Interval <= 0)
-                        {
-                            Attack_2();
-                            Current_Interval = ATTACK_DELAY;
-                        }
-                        else
-                            Current_Interval--;
+                    if (Current_Interval <= 0)
+                    {
+                        if (has_target())
+                            beat_drum(will_atk_right);
+                        Current_Interval = AUTO_ATTACK_DELAY;
+                    }
+                    else
+                        Current_Interval--;
                     break;
 
                 default:
@@ -244,26 +233,9 @@ namespace World.Devices
             Auto_tick();
         }
 
-
-
-        #region PlayerControl
-        public override void StartControl()
+        private void beat_drum(bool input_right)
         {
-            InputController.instance.left_click_event += Attack_1;
-            InputController.instance.right_click_event += Attack_2;
-            base.StartControl();
-        }
-
-        public override void EndControl()
-        {
-            InputController.instance.left_click_event -= Attack_1;
-            InputController.instance.right_click_event -= Attack_2;
-            base.EndControl();
-        }
-
-        private void Attack_1()
-        {
-            if (manual_left_ready)
+            if (fsm == Device_War_Drum_FSM.idle && input_right == will_atk_right)
             {
                 FSM_change_to(Device_War_Drum_FSM.attack);
                 attack_factor_expt += 0.5f;
@@ -272,19 +244,28 @@ namespace World.Devices
             {
                 attack_factor_expt = 1f;
             }
+            change_factor_of_anim_speed(attack_factor_expt);
         }
 
-        private void Attack_2()
+        #region PlayerControl
+        public override void StartControl()
         {
-            if (manual_right_ready)
-            {
-                change_factor_of_anim_speed(attack_factor_expt);
-                attack_factor_expt += 0.5f;
-            }
-            else
-            {
-                attack_factor_expt = 1f;
-            }
+            base.StartControl();
+        }
+
+        public override void EndControl()
+        {
+            base.EndControl();
+        }
+
+        public void Attack_1()
+        {
+            beat_drum(false);
+        }
+
+        public void Attack_2()
+        {
+            beat_drum(true);
         }
         #endregion
     }

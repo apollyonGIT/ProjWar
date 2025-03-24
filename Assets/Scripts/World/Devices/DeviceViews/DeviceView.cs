@@ -6,7 +6,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
+using World.Devices.DeviceEmergencies;
+using World.Helpers;
+using World.VFXs;
 using World.VFXs.DeviceDestroy_VFXs;
 
 namespace World.Devices.DeviceViews
@@ -33,7 +36,7 @@ namespace World.Devices.DeviceViews
         public virtual void init()
         {
 
-            transform.localPosition = owner.position; 
+            transform.localPosition = owner.position;
             if (anim != null)
             {
                 anim.state.Complete += AnimComplete;
@@ -60,9 +63,9 @@ namespace World.Devices.DeviceViews
             }
         }
 
-        void IDeviceView.notify_change_anim(string anim_name,bool loop)
+        void IDeviceView.notify_change_anim(string anim_name, bool loop)
         {
-            if(anim!=null)
+            if (anim != null)
                 anim.state.SetAnimation(0, anim_name, loop);
         }
 
@@ -80,15 +83,15 @@ namespace World.Devices.DeviceViews
 
             if (current.IsComplete)
             {
-                foreach(var anim_event in owner.anim_events)
+                foreach (var anim_event in owner.anim_events)
                 {
-                    if(anim_event.anim_name == current.Animation.Name && anim_event.triggered == false)
+                    if (anim_event.anim_name == current.Animation.Name && anim_event.triggered == false)
                     {
                         anim_event.triggered = true;
                         anim_event.anim_event?.Invoke(owner);
                     }
 
-                    if(anim_event.anim_name == current.Animation.Name)
+                    if (anim_event.anim_name == current.Animation.Name)
                     {
                         anim_event.triggered = false;
                     }
@@ -100,9 +103,6 @@ namespace World.Devices.DeviceViews
         {
             transform.localPosition = owner.position;
             transform.localRotation = EX_Utility.look_rotation_from_left(WorldContext.instance.caravan_dir);
-
-            if(smoke_vfx!=null)
-            smoke_vfx.transform.position = transform.position;
 
             if (owner.device_type == Device.DeviceType.melee)
                 transform.localScale = Vector3.one * BattleContext.instance.melee_scale_factor;
@@ -153,20 +153,20 @@ namespace World.Devices.DeviceViews
             var current_frame = Mathf.CeilToInt(current.AnimationTime * Config.PHYSICS_TICKS_PER_SECOND);
             var trigger_frame = Mathf.CeilToInt(duration_frame * ae.percent);
 
-            if(current_frame >= trigger_frame && ae.triggered == false && current_frame < duration_frame)
+            if (current_frame >= trigger_frame && ae.triggered == false && current_frame < duration_frame)
             {
                 ae.triggered = true;
                 ae.anim_event?.Invoke(owner);
             }
-            
+
             //根据ManualUpdate  动画帧和逻辑帧应该同步
         }
 
-        void IDeviceView.notify_open_collider(string _name,Action<ITarget> enter_e = null,Action<ITarget> stay_e = null,Action<ITarget> exit_e = null )
+        void IDeviceView.notify_open_collider(string _name, Action<ITarget> enter_e = null, Action<ITarget> stay_e = null, Action<ITarget> exit_e = null)
         {
-            foreach(var collider in colliders)
+            foreach (var collider in colliders)
             {
-                if(collider.collider_name == _name)
+                if (collider.collider_name == _name)
                 {
                     collider.gameObject.SetActive(true);
                     collider.enter_event += enter_e;
@@ -229,26 +229,46 @@ namespace World.Devices.DeviceViews
 
         void IDeviceView.notify_set_station(DeviceModule dm)
         {
-            
+
         }
 
-        protected DeviceDestroy_VFX_Mono smoke_vfx;
+        protected VFX smoke_vfx;
 
         void IDeviceView.notify_disable()
         {
-            DeviceDestroy_VFX.instance.create_cell(Config.current.devicedestroy_vfx,(Vector2)transform.position, 240);
-            smoke_vfx = DeviceDestroy_VFX.instance.create_cell(Config.current.devicesmoke_vfx, (Vector2)transform.position, 999999);
+            Vfx_Helper.InstantiateVfx(Config.current.devicedestroy_vfx, 240, (Vector2)transform.position);
+
+            smoke_vfx = Vfx_Helper.InstantiateVfx(Config.current.devicesmoke_vfx, 9999, (Vector2)transform.position - WorldContext.instance.caravan_pos,true);
         }
 
         void IDeviceView.notify_enable()
         {
-            if(smoke_vfx!=null)
-                Destroy(smoke_vfx.gameObject);
+            if (smoke_vfx != null)
+                smoke_vfx.duration = 0;
         }
 
         public virtual void notify_player_oper(bool oper)
         {
-            
+
+        }
+
+        protected VFX fire_vfx;
+        void IDeviceView.notify_add_emergency(DeviceEmergency de)
+        {
+            if(de is DeviceFired)
+            {
+                fire_vfx = Vfx_Helper.InstantiateVfx("fire_vfx",9999, (Vector2)transform.position - WorldContext.instance.caravan_pos, true);
+            }
+            Debug.Log("发生紧急情况");
+        }
+
+        void IDeviceView.notify_remove_emergency(DeviceEmergency de)
+        {
+            if(de is DeviceFired)
+            {
+                fire_vfx.duration = 0;
+            }
+            Debug.Log("解除紧急情况");
         }
     }
 }

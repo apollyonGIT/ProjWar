@@ -7,7 +7,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using World.Caravans;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
+using World.Devices.DeviceEmergencies;
 using World.Helpers;
 using World.Ui;
 
@@ -22,6 +23,7 @@ namespace World.Devices.DeviceUiViews
         public Slider hp;
         public GameObject select_border;
         public GameObject mask;
+        public Image ui_icon;
 
         public List<DeviceStationView> stations = new();
 
@@ -53,7 +55,13 @@ namespace World.Devices.DeviceUiViews
             hp.maxValue = owner.desc.hp;
             hp.value = owner.desc.hp;
 
-            for(int i = 0; i < owner.module_list.Count; i++)
+            if (!String.IsNullOrEmpty(owner.desc.icon))
+            {
+                Addressable_Utility.try_load_asset(owner.desc.icon, out Sprite s);
+                ui_icon.sprite = s;
+            }
+
+            for (int i = 0; i < owner.module_list.Count; i++)
             {
                 stations[i].Init(owner.module_list[i]);
             }
@@ -160,6 +168,25 @@ namespace World.Devices.DeviceUiViews
         public void notify_player_oper(bool oper)
         {
             select_border.gameObject.SetActive(oper);
+        }
+
+        void IDeviceView.notify_add_emergency(DeviceEmergency de)
+        {
+            if(de is DeviceFired df)
+            {
+
+            }
+            Debug.Log("发生紧急情况");
+        }
+
+        void IDeviceView.notify_remove_emergency(DeviceEmergency de)
+        {
+            if(de is DeviceFired df)
+            {
+
+            }
+
+            Debug.Log("解除紧急情况");
         }
     }
 }

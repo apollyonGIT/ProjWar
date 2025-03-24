@@ -20,7 +20,7 @@ namespace Foundations.DialogGraphs
         string IDialogNode_Coder.uname => m_uname;
         string m_uname = "";
 
-        string IDialogNode_Coder.key_name => "DialogWindowNode";
+        string IDialogNode_Coder.key_name => "JumpNode";
 
         //==================================================================================================
 
@@ -29,7 +29,7 @@ namespace Foundations.DialogGraphs
             var data = (DialogNode_Data)args[0];
             m_uname = data.uname;
 
-            m_fields.Add("target_uname", data.fields["target_uname"]);
+            m_fields.Add("target_uname", (string)EX_Utility.dic_safe_getValue(ref data.fields, "target_uname", ""));
         }
 
 
@@ -42,6 +42,12 @@ namespace Foundations.DialogGraphs
         object IDialogNode_Coder.do_input(params object[] args)
         {
             var target_uname = (string)m_fields["target_uname"];
+
+            if (target_uname.Contains("@"))
+            {
+                Share_DS.instance.try_get_value(target_uname, out target_uname);
+                Share_DS.instance.remove(target_uname);
+            }
 
             var coder_info = coders.Where(t => t.Value.uname == target_uname);
             if (coder_info == null)

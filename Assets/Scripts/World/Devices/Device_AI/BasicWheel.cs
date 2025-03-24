@@ -4,7 +4,7 @@ using UnityEngine;
 using World.Caravans;
 using World.Widgets;
 
-namespace World.Devices
+namespace World.Devices.Device_AI
 {
     public class BasicWheel : Device
     {

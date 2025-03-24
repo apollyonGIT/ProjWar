@@ -2,8 +2,8 @@
 using Foundations;
 using Spine.Unity;
 using UnityEngine;
-using World.Devices.NewDevice;
-using static World.Devices.NewDevice.NewBasicHook;
+using World.Devices.Device_AI;
+using static World.Devices.Device_AI.NewBasicHook;
 
 namespace World.Devices.DeviceViews
 {
@@ -14,10 +14,6 @@ namespace World.Devices.DeviceViews
         {
             transform.localPosition = owner.position;
             transform.localRotation = EX_Utility.look_rotation_from_left(WorldContext.instance.caravan_dir);
-
-            if (smoke_vfx != null)
-                smoke_vfx.transform.position = transform.position;
-
             if (anim != null)
             {
                 anim.Update(Config.PHYSICS_TICK_DELTA_TIME);

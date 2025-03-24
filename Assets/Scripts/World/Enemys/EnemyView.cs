@@ -1,5 +1,6 @@
 ﻿using Commons;
 using Foundations.MVVM;
+using Foundations.Tickers;
 using Spine.Unity;
 using System;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace World.Enemys
     public class EnemyView : MonoBehaviour, IEnemyView
     {
         public SkeletonAnimation anim;
+        Renderer m_anim_renderer;
 
         public Enemy owner;
         public Action tick1_outter;
@@ -27,6 +29,8 @@ namespace World.Enemys
             anim.state.SetAnimation(0, anim_name, anim_loop);
 
             owner.bones = anim.skeleton.Bones.ToDictionary(k => k.Data.Name, v => v);
+
+            m_anim_renderer = anim.transform.GetComponent<MeshRenderer>();
         }
 
 
@@ -59,6 +63,26 @@ namespace World.Enemys
             anim.Update(Config.PHYSICS_TICK_DELTA_TIME);
 
             tick1_outter?.Invoke();
+        }
+
+
+        void IEnemyView.notify_on_hurt()
+        {
+            var req_name = $"enemy_{owner.GUID}_hurt_fillPhase_stop";
+
+            foreach (var req in Request_Helper.query_request(req_name))
+            {
+                req.interrupt();
+            }
+
+            if (m_anim_renderer == null) return;
+
+            m_anim_renderer.material.SetFloat("_FillPhase", 1f);
+            Request_Helper.delay_do(req_name, 15, (_) => 
+            {
+                if (m_anim_renderer == null) return;
+                m_anim_renderer.material.SetFloat("_FillPhase", 0f); 
+            });
         }
     }
 }

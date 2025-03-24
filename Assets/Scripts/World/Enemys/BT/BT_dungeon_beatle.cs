@@ -1,8 +1,4 @@
-﻿using Commons;
-using ExcelDataReader;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 using World.Helpers;
 
 namespace World.Enemys.BT
@@ -49,29 +45,14 @@ namespace World.Enemys.BT
 
         private int awareness_capacity = Random.Range(AWARENESS_CAPACITY_MIN, AWARENESS_CAPACITY_MAX);
 
+        Enemy self;
 
         //==================================================================================================
 
         void IEnemy_BT.init(Enemy cell, params object[] prms)
         {
-            var state = (string)prms[0];
-            m_state = (EN_dungeon_beatle_FSM)System.Enum.Parse(typeof(EN_dungeon_beatle_FSM), state);
-
-            switch (m_state)
-            {
-                case EN_dungeon_beatle_FSM.Default:
-                    cell.mover.move_type = EN_enemy_move_type.Slide;
-                    cell.dir = Random.value > 0.5f ? Vector2.right : Vector2.left;
-                    break;
-                // Only Initialized in Beast Tide Mode
-                case EN_dungeon_beatle_FSM.Default_Awaken:
-                    cell.mover.move_type = EN_enemy_move_type.Fly;
-                    chasing_focus_y_coef = Random.Range(CHASING_FOCUS_Y_COEF_MIN, CHASING_FOCUS_Y_COEF_MAX);
-                    m_state = EN_dungeon_beatle_FSM.Fly_Charge;
-                    break;
-                default:
-                    break;
-            }
+            self = cell;
+            FSM_change_to((EN_dungeon_beatle_FSM)System.Enum.Parse(typeof(EN_dungeon_beatle_FSM), (string)prms[0]));
         }
 
 
@@ -90,40 +71,34 @@ namespace World.Enemys.BT
                     if (awareness < awareness_capacity)
                         awareness -= AWARENESS_DACAY_PER_TICK;
                     else
-                    {
-                        m_state = EN_dungeon_beatle_FSM.Fly_Wait;   // 飞起来，但是懵逼
-                        mover.move_type = EN_enemy_move_type.Fly;
-                        pos_expct = cell.pos + new Vector2(0, Random.Range(2.5f, 3f));
-                    }
+                        FSM_change_to(EN_dungeon_beatle_FSM.Fly_Wait);
+
                     break;
 
 
-                case EN_dungeon_beatle_FSM.Fly_Wait:
-                    ticks_in_current_state++;
+                case EN_dungeon_beatle_FSM.Fly_Wait:  // 飞起来，但是懵逼
+                    Ticks_In_Current_State++;
 
                     Monster_Common_Action.Sync_Pos_By_World_Pos_Reset(ref pos_expct);
                     cell.position_expt = pos_expct;
 
-                    set_speed_expt(cell, Mathf.Max(FLY_SPEED_TAKE_OFF - ticks_in_current_state * 0.03f, 3f));
+                    set_speed_expt(cell, Mathf.Max(FLY_SPEED_TAKE_OFF - Ticks_In_Current_State * 0.03f, 3f));
 
-                    if (ticks_in_current_state >= 100)
+                    if (Check_State_Time(100))
                         cell.dir.x = ctx.caravan_pos.x - cell.pos.x;    //朝向
 
-                    if (ticks_in_current_state >= 380)
-                    {
-                        ticks_in_current_state = 0;
-                        m_state = EN_dungeon_beatle_FSM.Fly_Charge;
-                        chasing_focus_y_coef = Random.Range(CHASING_FOCUS_Y_COEF_MIN, CHASING_FOCUS_Y_COEF_MAX);
-                    }
+                    if (Check_State_Time(380))
+                        FSM_change_to(EN_dungeon_beatle_FSM.Fly_Charge);
+
                     break;
 
 
                 case EN_dungeon_beatle_FSM.Fly_Charge:
-                    ticks_in_current_state++;
+                    Ticks_In_Current_State++;
 
-                    set_speed_expt(cell, FLY_SPEED_CHARGE_BEGIN + ticks_in_current_state * 0.012f);
+                    set_speed_expt(cell, FLY_SPEED_CHARGE_BEGIN + Ticks_In_Current_State * 0.012f);
 
-                    if (ticks_in_current_state > 10)
+                    if (Check_State_Time(10))
                         explode = true;
 
                     var distance_fall_behind = Mathf.Clamp(ctx.caravan_pos.x - cell.pos.x, 3f, 8.5f);
@@ -145,6 +120,33 @@ namespace World.Enemys.BT
             mover.move();
 
         }
+
+        void FSM_change_to(EN_dungeon_beatle_FSM expected_fsm)
+        {
+            m_state = expected_fsm;
+            Ticks_In_Current_State = 0;
+            switch (expected_fsm)
+            {
+                case EN_dungeon_beatle_FSM.Default:
+                    self.mover.move_type = EN_enemy_move_type.Slide;
+                    self.dir = Random.value > 0.5f ? Vector2.right : Vector2.left;
+                    break;
+                case EN_dungeon_beatle_FSM.Default_Awaken: // Initialized in Beast Tide Mode
+                    self.mover.move_type = EN_enemy_move_type.Fly;
+                    FSM_change_to(EN_dungeon_beatle_FSM.Fly_Charge);
+                    break;
+                case EN_dungeon_beatle_FSM.Fly_Wait:
+                    self.mover.move_type = EN_enemy_move_type.Fly;
+                    pos_expct = self.pos + new Vector2(0, Random.Range(2.5f, 3f));
+                    break;
+                case EN_dungeon_beatle_FSM.Fly_Charge:
+                    chasing_focus_y_coef = Random.Range(CHASING_FOCUS_Y_COEF_MIN, CHASING_FOCUS_Y_COEF_MAX);
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
         private void set_speed_expt(Enemy cell, float v)
         {

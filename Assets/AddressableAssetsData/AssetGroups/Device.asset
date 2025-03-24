@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 5c0083710f6fc054f9a95cb7288b2710
   m_SerializeEntries:
   - m_GUID: a6eb0a61ef196254eb5e820779867f2a
-    m_Address: device_1320102_musket
+    m_Address: device_1320102_pistol
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -44,11 +44,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7913a897c4c54504581845d4c798daf4
     m_Address: device_1340101_buckler
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0b276731b18812b4c9a1f98ada00cc1b
-    m_Address: device_1330102_war_drum
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -144,6 +139,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b1a502619cba5a439e1226470f4ead2
     m_Address: device_1350103_merchant_tower_crane
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c828d2f34b2f2ff4699bbbebaf3e652c
+    m_Address: device_1320108_musket
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 64de8906783a6f144ba67104581d695a
+    m_Address: device_1320109_fortune_pistol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36d79217ed3065d46880fdfd26ad038f
+    m_Address: device_1330102_war_drum
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

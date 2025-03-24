@@ -57,6 +57,21 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e32ac97b93c1ca04391a2614ba8d0cd7
+    m_Address: mpj_2102_bullet_caveman_stone
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ebc004de42198f845aaa3ab4f6f1995f
+    m_Address: mpj_2103_bullet_caveman_molotov
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69f655ac56f00c743897ee6f1e0ada29
+    m_Address: mpj_2104_arrow_caveman_greek_fire_javelin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 82788fcdea99bc1479d21577250b5840, type: 2}
   m_SchemaSet:

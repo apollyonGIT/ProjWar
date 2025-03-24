@@ -11,8 +11,6 @@ namespace World.Devices.DeviceViews
             transform.localPosition = owner.position;
             transform.localRotation = EX_Utility.look_rotation_from_left(WorldContext.instance.caravan_dir);
 
-            if (smoke_vfx != null)
-                smoke_vfx.transform.position = transform.position;
 
             if (owner.device_type == Device.DeviceType.melee)
                 transform.localScale = Vector3.one * BattleContext.instance.melee_scale_factor;

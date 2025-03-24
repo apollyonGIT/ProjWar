@@ -5,7 +5,7 @@ using Foundations;
 using Foundations.MVVM;
 using System.Collections.Generic;
 using UnityEngine;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 using World.Environments;
 using World.Helpers;
 

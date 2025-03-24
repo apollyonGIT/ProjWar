@@ -1,7 +1,7 @@
 ﻿using Foundations;
 using Foundations.Tickers;
 using UnityEngine;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 using World.Helpers;
 
 namespace World.Widgets

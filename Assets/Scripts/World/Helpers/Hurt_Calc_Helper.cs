@@ -32,10 +32,11 @@ namespace World.Helpers
             if (is_critical)
                 atk = Mathf.CeilToInt(atk * cr);
 
+            var f = Random.Range(0.9f, 1.1f);
             //7. 计算造成的伤害dmg
             Dmg_Data dmg_data = new()
             {
-                dmg = Mathf.Max(atk - D, 1),
+                dmg = atk - D > 1 ? (int)((atk - D) * f) : 1,
                 is_critical = is_critical
             };
 

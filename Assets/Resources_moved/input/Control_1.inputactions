@@ -56,7 +56,7 @@
                     "id": "2a1d6209-5a45-4981-9d81-d2325e7fca35",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "Tap(duration=1.401298E-45,pressPoint=1.401298E-45),Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
                     "initialStateCheck": false
                 },
                 {
@@ -72,6 +72,51 @@
                     "name": "Del",
                     "type": "Button",
                     "id": "50935d2f-9ab5-47c6-bbc8-3d0c3112e793",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PullUp",
+                    "type": "Button",
+                    "id": "3b885522-ce36-4b1e-b939-12c0d19e6ed5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap(duration=1.401298E-45,pressPoint=1.401298E-45),Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PullDown",
+                    "type": "Button",
+                    "id": "77996616-8e47-441d-ad68-9df36ffeab28",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap(duration=1.401298E-45,pressPoint=1.401298E-45),Hold(duration=1.401298E-45,pressPoint=1.401298E-45)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Brake",
+                    "type": "Button",
+                    "id": "41b07fe5-1d50-46fd-8975-09a3b9254c7a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Load",
+                    "type": "Button",
+                    "id": "6ecf78aa-1475-443e-b034-986225e03c2d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PushCar",
+                    "type": "Button",
+                    "id": "ef381eec-6204-4e8b-aada-eac017fe5ed0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -137,7 +182,7 @@
                 {
                     "name": "",
                     "id": "bee15867-b59a-4e45-84fc-b3e51a811d3e",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -164,6 +209,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "Del",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44e5ebb6-3ad5-40cf-901c-961bd45d9d47",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PullUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e9e846a-1046-4b4f-839e-3907a3d97163",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PullDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "691104fa-aa57-46be-883a-a6726107cfed",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da947b96-edc8-4e40-aaab-946f86b60f3b",
+                    "path": "<Keyboard>/r",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Load",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6c16373-c3bc-492c-b574-7db1cb5e3df7",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PushCar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

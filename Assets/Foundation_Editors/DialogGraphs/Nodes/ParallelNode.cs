@@ -9,17 +9,14 @@ namespace Foundation_Editors.DialogGraphs
 {
     public class ParallelNode : DialogNode
     {
-
-        static Vector2 node_size = new(150, 200);
-
         public override Type node_type => typeof(ParallelNode);
         public override Type coder_type => typeof(ParallelNode_Coder);
 
         //==================================================================================================
 
-        public static void create_node(DialogNode_Data data, DialogGraphView view)
+        public static ParallelNode create_node(DialogNode_Data data, DialogGraphView view)
         {
-            var node = create_node(data.node_name, new(data.pos.Item1, data.pos.Item2), view);
+            var node = create_node_init(data.node_name, new(data.pos.Item1, data.pos.Item2), view);
             node._desc = data;
             node.uname_content.value = data.uname;
 
@@ -32,10 +29,12 @@ namespace Foundation_Editors.DialogGraphs
             }
 
             view.AddElement(node);
+
+            return node;
         }
 
 
-        public static ParallelNode create_node(string nodeName, Vector2 pos, DialogGraphView view)
+        public static ParallelNode create_node_init(string nodeName, Vector2 pos, DialogGraphView view)
         {
             ParallelNode node = new()
             {

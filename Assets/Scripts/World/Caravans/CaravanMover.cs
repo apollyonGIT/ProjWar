@@ -30,6 +30,9 @@ namespace World.Caravans
         {
             Mission.instance.try_get_mgr("CaravanMgr", out mgr);
             m_move_type = EN_caravan_move_type.Run;
+
+            ref var pos = ref WorldContext.instance.caravan_pos;
+            pos.y = Road_Info_Helper.try_get_altitude(pos.x);
         }
 
 

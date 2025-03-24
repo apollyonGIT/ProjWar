@@ -53,6 +53,12 @@ namespace World.Caravans
         void tick()
         {
             ref var caravan_pos = ref ctx.caravan_pos;
+
+            if (ctx.is_need_reset)
+            {
+                caravan_pos.x -= ctx.reset_dis;
+            }
+
             var temp_pos = caravan_pos;
 
             CaravanMover.move();
@@ -61,11 +67,6 @@ namespace World.Caravans
             ctx.caravan_move_delta_dis = caravan_pos.x - temp_pos.x;
 
             cell.tick();
-
-            if (ctx.is_need_reset)
-            {
-                caravan_pos.x -= ctx.reset_dis;
-            }
         }
 
 

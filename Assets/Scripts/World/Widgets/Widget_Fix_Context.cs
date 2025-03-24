@@ -3,7 +3,7 @@ using Foundations;
 using Foundations.Tickers;
 using World.Caravans;
 using World.Devices;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 
 namespace World.Widgets
 {
@@ -18,9 +18,9 @@ namespace World.Widgets
         public bool player_oper;
 
         public float current_fix_amount;
-        public float max_fix_amount = 5;
-        public int fix_cd = 20 * Config.PHYSICS_TICKS_PER_SECOND;
-        public int max_fix_cd = 20 * Config.PHYSICS_TICKS_PER_SECOND;
+        public float max_fix_amount = Config.current.repairing_counts;
+        public int fix_cd = Config.current.repairing_cd_ticks;
+        public int max_fix_cd = Config.current.repairing_cd_ticks;
 
         public bool fix_caravan = false;
         public Device fix_device;

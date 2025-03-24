@@ -2,7 +2,7 @@
 using Foundations.Tickers;
 using UnityEngine;
 using World.Caravans;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 
 namespace World.Widgets
 {

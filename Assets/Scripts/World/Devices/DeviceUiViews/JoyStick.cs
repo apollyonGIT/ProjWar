@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace World.Devices.DeviceUiViews
 {
-    public class JoyStick : MonoBehaviour,IDragHandler,IPointerUpHandler,IPointerDownHandler,IPointerExitHandler,IPointerEnterHandler
+    public class JoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler, IPointerExitHandler, IPointerEnterHandler
     {
         public DeviceUiView duv;
         public Image jsContainer;
@@ -34,7 +34,7 @@ namespace World.Devices.DeviceUiViews
             }
             else
             {
-                var dir  = position - Vector2.zero;
+                var dir = position - Vector2.zero;
                 joystick.rectTransform.anchoredPosition = dir.normalized * jsContainer.rectTransform.sizeDelta / 2;
             }
         }
@@ -70,7 +70,10 @@ namespace World.Devices.DeviceUiViews
         {
             if (is_dragging)
             {
-                duv?.OperateDrag(joystick.rectTransform.anchoredPosition);
+                if(joystick.transform.localPosition.magnitude > ((jsContainer.rectTransform.sizeDelta / 2).x) * 0.99f)
+                {
+                    duv?.OperateDrag(joystick.rectTransform.anchoredPosition);
+                }
             }
         }
     }

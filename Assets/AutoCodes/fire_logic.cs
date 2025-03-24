@@ -17,11 +17,19 @@ namespace AutoCodes
         
         public uint logic_id;
         
+        public string SE_fire = "";
+        
+        public string SE_reloaded = "";
+        
         public uint projectile_id;
         
         public int cd;
         
         public System.ValueTuple<float, float> speed;
+        
+        public int critical_chance;
+        
+        public int critical_dmg_rate;
         
         public System.ValueTuple<int, int> projectile_life_ticks;
         
@@ -30,8 +38,6 @@ namespace AutoCodes
         public float angle;
         
         public string bone_name = "";
-        
-        public uint repeat;
         
         public uint capacity;
         
@@ -50,6 +56,10 @@ namespace AutoCodes
         public float rapid_fire_tick_percent;
         
         public int damage;
+        
+        public float fire;
+        
+        public object diy_obj;
     }
     
     public class fire_logics

@@ -1,4 +1,5 @@
-﻿using Foundations.DialogGraphs;
+﻿using Foundations;
+using Foundations.DialogGraphs;
 using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -10,26 +11,26 @@ namespace Foundation_Editors.DialogGraphs
     {
         public TextField target_uname_content;
 
-        static Vector2 node_size = new(150, 200);
-
         public override Type node_type => typeof(JumpNode);
         public override Type coder_type => typeof(JumpNode_Coder);
 
         //==================================================================================================
 
-        public static void create_node(DialogNode_Data data, DialogGraphView view)
+        public static JumpNode create_node(DialogNode_Data data, DialogGraphView view)
         {
-            var node = create_node(data.node_name, new(data.pos.Item1, data.pos.Item2), view);
+            var node = create_node_init(data.node_name, new(data.pos.Item1, data.pos.Item2), view);
             node._desc = data;
             node.uname_content.value = data.uname;
 
-            node.target_uname_content.value = (string)data.fields["target_uname"];
+            node.target_uname_content.value = (string)EX_Utility.dic_safe_getValue(ref data.fields, "target_uname", "");
 
             view.AddElement(node);
+
+            return node;
         }
 
 
-        public static JumpNode create_node(string nodeName, Vector2 pos, DialogGraphView view)
+        public static JumpNode create_node_init(string nodeName, Vector2 pos, DialogGraphView view)
         {
             JumpNode node = new()
             {

@@ -47,6 +47,21 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86cc0c9bb9f3ce9419b54c2a232c7783
+    m_Address: monster_201107_dungeon_caveman_wanderer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fcad35c0446e2fe44a88fd6f236d8c78
+    m_Address: monster_201108_dungeon_caveman_arsonist
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e2a8dc944b6828a44ba0a594653344f3
+    m_Address: monster_201109_dungeon_caveman_mob
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 82788fcdea99bc1479d21577250b5840, type: 2}
   m_SchemaSet:

@@ -102,14 +102,14 @@ namespace World.Enemys.BT
                     break;
 
                 case EN_dungeon_caveman_FSM.Idle:
-                    if (target_locked_on == null || ticks_target_has_been_locked_on >= TARGET_RESELECTED_TICK)
-                        lock_target();
+                    if (Target_Locked_On == null || Ticks_Target_Has_Been_Locked_On >= TARGET_RESELECTED_TICK)
+                        Lock_Target();
                     else
-                        ticks_target_has_been_locked_on++;
+                        Ticks_Target_Has_Been_Locked_On++;
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
-                        var delta_pos = target_locked_on.Position - cell.pos;
+                        var delta_pos = Target_Locked_On.Position - cell.pos;
                         var distance = delta_pos.magnitude;
 
                         if (Shoot_CD <= 0 && distance <= SHOOT_DISTANCE_MAX && distance >= SHOOT_DISTANCE_MIN)
@@ -143,55 +143,55 @@ namespace World.Enemys.BT
                     break;
 
                 case EN_dungeon_caveman_FSM.Atk_Melee:
-                    ticks_in_current_state++;
+                    Ticks_In_Current_State++;
 
-                    if (check_state_time(state_over_tick))
+                    if (Check_State_Time(state_over_tick))
                     {
                         m_state = EN_dungeon_caveman_FSM.Idle;
-                        target_locked_on = null;
+                        Target_Locked_On = null;
                         break;
                     }
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
-                        var target_delta_pos = target_locked_on.Position - cell.pos;
+                        var target_delta_pos = Target_Locked_On.Position - cell.pos;
                         cell.dir.x = target_delta_pos.x;
 
                         if (check_melee_atk_range(target_delta_pos.magnitude))
                         {
-                            if (!atk_finished && check_state_time(state_event_tick))
+                            if (!atk_finished && Check_State_Time(state_event_tick))
                             {
                                 Attack_Data attack_data = new()
                                 {
                                     atk = cell._desc.basic_atk
                                 };
 
-                                target_locked_on.hurt(attack_data);
+                                Target_Locked_On.hurt(attack_data);
                                 atk_finished = true;
                                 melee_combo++;
                             }
                             break;
                         }
-                        target_locked_on = null;
+                        Target_Locked_On = null;
                     }
 
                     FSM_change_to(EN_dungeon_caveman_FSM.Idle);
                     break;
 
                 case EN_dungeon_caveman_FSM.Atk_Shoot:
-                    ticks_in_current_state++;
+                    Ticks_In_Current_State++;
 
-                    if (check_state_time(state_over_tick))
+                    if (Check_State_Time(state_over_tick))
                     {
                         FSM_change_to(EN_dungeon_caveman_FSM.Idle);
                         break;
                     }
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
-                        cell.dir.x = target_locked_on.Position.x - cell.pos.x;
-                        if (!Shoot_Finished && check_state_time(state_event_tick))
-                            I_Shoot.Monster_Shoot(cell, MUZZLE_BONE_NAME_IN_SPINE, target_locked_on.Position);
+                        cell.dir.x = Target_Locked_On.Position.x - cell.pos.x;
+                        if (!Shoot_Finished && Check_State_Time(state_event_tick))
+                            I_Shoot.Monster_Shoot(cell, MUZZLE_BONE_NAME_IN_SPINE, Target_Locked_On.Position);
                     }
                     else
                         FSM_change_to(EN_dungeon_caveman_FSM.Idle);
@@ -208,7 +208,7 @@ namespace World.Enemys.BT
         private void FSM_change_to(EN_dungeon_caveman_FSM expected_FSM)
         {
             m_state = expected_FSM;
-            ticks_in_current_state = 0;
+            Ticks_In_Current_State = 0;
             switch (expected_FSM)
             {
                 case EN_dungeon_caveman_FSM.Atk_Melee:
@@ -223,7 +223,7 @@ namespace World.Enemys.BT
                     break;
                 case EN_dungeon_caveman_FSM.Walk_1:
                 case EN_dungeon_caveman_FSM.Walk_2:
-                    I_Jump.Jump_By_Mode(self, target_locked_on.Position, JUMP_CD);
+                    I_Jump.Jump_By_Mode(self, Target_Locked_On.Position, JUMP_CD);
                     walk_left_right_change = !walk_left_right_change;
                     melee_combo = 0;
                     self.dir.x = self.velocity.x;
@@ -237,12 +237,6 @@ namespace World.Enemys.BT
         {
             return distance_to_target <= MELEE_DISTANCE;
         }
-
-        private bool check_state_time(ushort ticks)
-        {
-            return ticks_in_current_state >= ticks;
-        }
-
 
 
         void IEnemy_BT.notify_on_enter_die(Enemy cell)

@@ -54,5 +54,19 @@ namespace World.VFXs
                 }
             }
         }
+
+        void IVFXMgrView.notify_update_vfx(VFX vfx)
+        {
+            foreach (var vfxs in vfx_pool.objectsPoped)
+            {
+                for (int i = vfxs.Value.Count - 1; i >= 0; i--)
+                {
+                    if (vfxs.Value[i].data == vfx)
+                    {
+                        vfxs.Value[i].UpdatePos();
+                    }
+                }
+            }
+        }
     }
 }

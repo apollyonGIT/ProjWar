@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 using World.Helpers;
 
 namespace World.Progresss

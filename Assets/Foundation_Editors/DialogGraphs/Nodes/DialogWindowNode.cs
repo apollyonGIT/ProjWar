@@ -14,22 +14,20 @@ namespace Foundation_Editors.DialogGraphs
         public TextField dialog_content;
         public TextField console_content;
 
-        static Vector2 node_size = new(150, 200);
-
         public override Type node_type => typeof(DialogWindowNode);
         public override Type coder_type => typeof(DialogWindowNode_Coder);
 
         //==================================================================================================
 
-        public static void create_node(DialogNode_Data data, DialogGraphView view)
+        public static DialogWindowNode create_node(DialogNode_Data data, DialogGraphView view)
         {
-            var node = create_node(data.node_name, new(data.pos.Item1, data.pos.Item2), view);
+            var node = create_node_init(data.node_name, new(data.pos.Item1, data.pos.Item2), view);
             node._desc = data;
             node.uname_content.value = data.uname;
 
-            node.dialog_content.value = (string)EX_Utility.dic_force_getValue(ref data.fields, "dialogText", "");
-            node.title_content.value = (string)EX_Utility.dic_force_getValue(ref data.fields, "titleText", "");
-            node.console_content.value = (string)EX_Utility.dic_force_getValue(ref data.fields, "consoleText", "");
+            node.dialog_content.value = (string)EX_Utility.dic_safe_getValue(ref data.fields, "dialogText", "");
+            node.title_content.value = (string)EX_Utility.dic_safe_getValue(ref data.fields, "titleText", "");
+            node.console_content.value = (string)EX_Utility.dic_safe_getValue(ref data.fields, "consoleText", "");
 
             if (data.ports != null && data.ports.Any())
             {
@@ -40,10 +38,12 @@ namespace Foundation_Editors.DialogGraphs
             }
 
             view.AddElement(node);
+
+            return node;
         }
 
 
-        public static DialogWindowNode create_node(string nodeName, Vector2 pos, DialogGraphView view)
+        public static DialogWindowNode create_node_init(string nodeName, Vector2 pos, DialogGraphView view)
         {
             DialogWindowNode node = new()
             {

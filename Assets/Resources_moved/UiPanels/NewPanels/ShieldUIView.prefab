@@ -133,6 +133,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 300632742234770478}
   m_SourcePrefab: {fileID: 100100000, guid: 29058a41018140241a3bb2f1b92663fd, type: 3}
+--- !u!114 &510130847832682626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8979308184612517187, guid: 29058a41018140241a3bb2f1b92663fd, type: 3}
+  m_PrefabInstance: {fileID: 8901558682582451649}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1336172833852630329 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7567096760771748088, guid: 29058a41018140241a3bb2f1b92663fd, type: 3}
@@ -209,6 +220,7 @@ MonoBehaviour:
   hp: {fileID: 6559110949344365179}
   select_border: {fileID: 2883264406663090406}
   mask: {fileID: 5423193223693608873}
+  ui_icon: {fileID: 510130847832682626}
   stations:
   - {fileID: 4283207482279440049}
   joystick: {fileID: 1336172833852630329}

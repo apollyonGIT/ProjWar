@@ -1,6 +1,6 @@
 ﻿using TMPro;
 using UnityEngine.UI;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 
 namespace World.Devices.DeviceUiViews
 {
@@ -32,10 +32,6 @@ namespace World.Devices.DeviceUiViews
 
             ammo_progress.fillAmount = shooter.Reloading_Process;
             manual_reload_indicator.gameObject.SetActive(shooter.can_manual_reload);
-        }
-        public void ControlDevice()
-        {
-            InputController.instance.SetDeviceControl(owner);
         }
     }
 }

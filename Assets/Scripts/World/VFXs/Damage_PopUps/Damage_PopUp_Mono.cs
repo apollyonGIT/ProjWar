@@ -7,7 +7,9 @@ namespace World.VFXs.Damage_PopUps
 {
     public class Damage_PopUp_Mono : MonoBehaviour
     {
-        public TextMesh text;
+        public List<SpriteRenderer> dmg_list = new List<SpriteRenderer>();
+        public List<Sprite> norma_textures = new List<Sprite>();
+        public List<Sprite> critical_textures = new List<Sprite>();
 
         internal int exist_delta;
         bool is_init;
@@ -27,7 +29,7 @@ namespace World.VFXs.Damage_PopUps
             var content = $"{dmg_data.dmg}";
             var pos = (Vector2)prms[1];
 
-            text.text = content;
+            SetDmgSprites(dmg_data.dmg,dmg_data.is_critical);
 
             transform.position = pos;
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0);
@@ -42,6 +44,38 @@ namespace World.VFXs.Damage_PopUps
             is_init = true;
         }
 
+        private void SetDmgSprites(int dmg,bool is_critical)
+        {
+            int i = 0;
+
+            if (dmg != 0 && is_critical)
+            {
+                dmg_list[9].gameObject.SetActive(true);
+            }
+            else
+            {
+                dmg_list[9].gameObject.SetActive(false);
+            }
+
+
+                for (i = 0; i < 9; i++)
+                {
+                    int temp;
+
+                    if (dmg < Mathf.Pow(10, i))
+                    {
+                        dmg_list[i].gameObject.SetActive(false);
+                        continue;
+                    }
+
+                    temp = (int)(dmg / Mathf.Pow(10, i));
+                    temp %= 10;
+
+                    dmg_list[i].sprite = is_critical ? critical_textures[temp] : norma_textures[temp];
+                    dmg_list[i].gameObject.SetActive(true);
+                }
+
+        }
 
         private void Update()
         {

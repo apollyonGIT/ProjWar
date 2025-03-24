@@ -1,15 +1,14 @@
 ﻿using Commons;
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace World.Encounters.Dialogs
 {
     public class Encounter_Dialog_Window : MonoBehaviour
     {
-        public TextMeshProUGUI title;
-        public TextMeshProUGUI content;
+        public Encounter_Dialog_Window_Title title;
+        public Encounter_Dialog_Window_Dialog dialog;
 
         public Encounter_Dialog_Window_Btn_Option btn_option_model;
 
@@ -22,8 +21,8 @@ namespace World.Encounters.Dialogs
         {
             var uname = (string)args[0];
 
-            title.text = Localization_Utility.get_localization_dialog((string)args[1]);
-            content.text = Localization_Utility.get_localization_dialog((string)args[2]);
+            title.content.text = Localization_Utility.get_localization_dialog((string)args[1]);
+            dialog.content.text = Localization_Utility.get_localization_dialog((string)args[2]);
             var btn_option_ac_list = (List<(string, Func<object>)>)args[3];
 
             for (int i = 0; i < btn_option_ac_list.Count; i++)

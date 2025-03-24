@@ -16,6 +16,9 @@ namespace World
         public float enemy_hp_factor = 1f;              //怪物hp系数
         public float drop_loot_delta = 0f;              //掉落物品增量    
 
+        public float critical_chance_delta = 0f;        //全局暴击概率增量
+        public float critical_rate_delta = 0f;          //全局暴击倍率增量
+
         public void Init()
         {
             projectile_scale_factor = 1f;
@@ -30,6 +33,9 @@ namespace World
             enemy_mass_factor = 1f;
             enemy_hp_factor = 1f;
             drop_loot_delta = 0f;
+
+            critical_chance_delta = 0f;
+            critical_rate_delta = 0f;
         }
     }
 }

@@ -52,18 +52,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7b490d2a0f071c04d8c6224e53ef3501
+  - m_GUID: e6f2531c246633e43bb205b64cfbfcf4
     m_Address: vfx_device_broken_explosion
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 076e39275ca8e584c8737b56177f9ac3
-    m_Address: vfx_device_broken_smoke
+  - m_GUID: acbea9b3196f99c42830e0d860ed4a8a
+    m_Address: smoke_vfx
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99843290adb5d174bb45b7b4bcab199b
     m_Address: vfx_ammo_explode_1205_rocket_bomb
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b966e17673d22bd44bc5837f17bb7491
+    m_Address: fire_vfx
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

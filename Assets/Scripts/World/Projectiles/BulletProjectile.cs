@@ -2,6 +2,7 @@
 using UnityEngine;
 using World.Enemys;
 using World.Helpers;
+using static UnityEngine.GraphicsBuffer;
 
 namespace World.Projectiles
 {
@@ -16,6 +17,24 @@ namespace World.Projectiles
         protected override void rotate() {
             direction = Quaternion.AngleAxis(rot_speed * Config.PHYSICS_TICK_DELTA_TIME, Vector3.forward) * direction;
         }
+
+        private Attack_Data modify_attack_data(ITarget target)
+        {
+            Attack_Data result = new Attack_Data();
+            var target_v = Vector2.zero;
+            if (target is Enemy)
+            {
+                var e = target as Enemy;
+                target_v = e.velocity;
+            }
+            result.atk = (int)(init_speed == 0 ? attack_data.atk : attack_data.atk * Mathf.Pow((velocity - target_v).magnitude / init_speed, 2));
+            result.critical_chance = attack_data.critical_chance+ (int)(BattleContext.instance.critical_chance_delta * 1000);
+            result.critical_rate = attack_data.critical_rate + (int)(BattleContext.instance.critical_rate_delta * 1000);
+            result.ignite = attack_data.ignite;
+            
+            return result;
+        }
+
         public override void HitEnemy()
         {
 
@@ -50,22 +69,9 @@ namespace World.Projectiles
                         if (target != null && target.is_interactive)
                         {
                             //1.对目标造成伤害与击退
-                            var target_v = Vector2.zero;
-                            if (target is Enemy)
-                            {
-                                var e = target as Enemy;
-                                target_v = e.velocity;
-                            }
-                            var dv_between_self_and_target = (velocity - target_v).magnitude;
+                            var ad = modify_attack_data(target);
 
-                            var dmg = init_speed == 0 ? damage : damage * Mathf.Pow(dv_between_self_and_target / init_speed, 2);
-
-                            Attack_Data attack_data = new()
-                            {
-                                atk = (int)dmg
-                            };
-
-                            target.hurt(attack_data);
+                            target.hurt(ad);
                             target.impact(WorldEnum.impact_source_type.projectile, velocity, mass, Config.current.bullet_penetration_loss);
 
                             //2.根据剩余动能，判定飞射物自身的后续运动方式
@@ -90,6 +96,8 @@ namespace World.Projectiles
                                 }
                             }
                         }
+
+                        hit_target_event?.Invoke(target);
                     }
                 }
             }
@@ -101,22 +109,9 @@ namespace World.Projectiles
                 });
                 if (target != null && target.is_interactive)
                 {
-                    var target_v = Vector2.zero;
-                    if (target is Enemy)
-                    {
-                        var e = target as Enemy;
-                        target_v = e.velocity;
-                    }
-                    var dv_between_self_and_target = (velocity - target_v).magnitude;
+                    var ad = modify_attack_data(target);
 
-                    var dmg = init_speed == 0 ? damage : damage * Mathf.Pow(dv_between_self_and_target / init_speed, 2);
-
-                    Attack_Data attack_data = new()
-                    {
-                        atk = (int)dmg
-                    };
-
-                    target.hurt(attack_data);
+                    target.hurt(ad);
                     target.impact(WorldEnum.impact_source_type.projectile, velocity, mass, Config.current.bullet_penetration_loss);
 
                     //2.根据剩余动能，判定飞射物自身的后续运动方式
@@ -140,6 +135,8 @@ namespace World.Projectiles
                             validate = false;
                         }
                     }
+
+                    hit_target_event?.Invoke(target);
                 }
             }
         }
@@ -183,15 +180,13 @@ namespace World.Projectiles
                 }  
          
             }    
-            
-            
         }
         public override void ResetPos()
         {
             base.ResetPos();
             last_position -= new Vector2(WorldContext.instance.reset_dis, 0);
         }
-        public override void HitCaravan()
+        /*public override void HitCaravan()
         {
             
         }
@@ -228,18 +223,9 @@ namespace World.Projectiles
                         if (target != null && target.is_interactive)
                         {
                             //1.对目标造成伤害与击退
-                            var target_v = WorldContext.instance.caravan_velocity;
+                            var ad = modify_attack_data(target);
 
-                            var dv_between_self_and_target = (velocity - target_v).magnitude;
-
-                            var dmg = init_speed == 0 ? damage : damage * Mathf.Pow(dv_between_self_and_target / init_speed, 2);
-
-                            Attack_Data attack_data = new()
-                            {
-                                atk = (int)dmg
-                            };
-
-                            target.hurt(attack_data);
+                            target.hurt(ad);
                             target.impact(WorldEnum.impact_source_type.projectile, velocity, mass, Config.current.bullet_penetration_loss);
 
                             //2.根据剩余动能，判定飞射物自身的后续运动方式
@@ -275,17 +261,9 @@ namespace World.Projectiles
                 });
                 if (target != null && target.is_interactive)
                 {
-                    var target_v = WorldContext.instance.caravan_velocity;
-                    var dv_between_self_and_target = (velocity - target_v).magnitude;
+                    var ad = modify_attack_data(target);
 
-                    var dmg = init_speed == 0 ? damage : damage * Mathf.Pow(dv_between_self_and_target / init_speed, 2);
-
-                    Attack_Data attack_data = new()
-                    {
-                        atk = (int)dmg
-                    };
-
-                    target.hurt(attack_data);
+                    target.hurt(ad);
                     target.impact(WorldEnum.impact_source_type.projectile, velocity, mass, Config.current.bullet_penetration_loss);
 
                     //2.根据剩余动能，判定飞射物自身的后续运动方式
@@ -311,6 +289,6 @@ namespace World.Projectiles
                     }
                 }
             }
-        }
+        }*/
     }
 }

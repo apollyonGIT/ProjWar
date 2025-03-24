@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using World.Helpers;
+using TMPro;
 
 namespace World.Progresss
 {
     public class ProgressEventView : MonoBehaviour
     {
-        private const float FIXED_TRANSFORM_Z = 9.9F;
+        private const float FIXED_TRANSFORM_Z = 10F;
 
         public ProgressEvent pe;
         public Slider progress_slider;
         public Image icon;
+        public TextMeshProUGUI cd_TX;
 
         public ProgressStationView station;
 
@@ -39,6 +41,8 @@ namespace World.Progresss
             delta.y = 0;
             delta.z += 2;
             transform.rotation = Quaternion.FromToRotation(Vector3.forward, delta.normalized);
+
+            cd_TX.text = pe.cd_TX;
 
             station.tick();
         }

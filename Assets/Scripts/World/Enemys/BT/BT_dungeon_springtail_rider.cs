@@ -94,14 +94,14 @@ namespace World.Enemys.BT
                     break;
 
                 case EN_dungeon_springtail_rider_FSM.Idle:
-                    if (target_locked_on == null || ticks_target_has_been_locked_on >= TARGET_RESELECTED_TICK)
-                        lock_target();
+                    if (Target_Locked_On == null || Ticks_Target_Has_Been_Locked_On >= TARGET_RESELECTED_TICK)
+                        Lock_Target();
                     else
-                        ticks_target_has_been_locked_on++;
+                        Ticks_Target_Has_Been_Locked_On++;
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
-                        var delta_x = target_locked_on.Position.x - cell.pos.x;
+                        var delta_x = Target_Locked_On.Position.x - cell.pos.x;
                         cell.dir.x = delta_x;
                         if (Shoot_CD <= 0)
                         {
@@ -130,7 +130,7 @@ namespace World.Enemys.BT
 
 
                 case EN_dungeon_springtail_rider_FSM.Jumping:
-                    ticks_in_current_state++;
+                    Ticks_In_Current_State++;
 
                     if (Jump_Finished)
                     {
@@ -139,11 +139,11 @@ namespace World.Enemys.BT
                     }
                     else
                     {
-                        if (target_locked_on != null)
+                        if (Target_Locked_On != null)
                         {
-                            if (ticks_in_current_state >= JUMP_TICK_BY_SPINE)
-                                I_Jump.Jump_By_Mode(cell, target_locked_on.Position, JUMP_CD);
-                            ticks_target_has_been_locked_on++;
+                            if (Check_State_Time(JUMP_TICK_BY_SPINE))
+                                I_Jump.Jump_By_Mode(cell, Target_Locked_On.Position, JUMP_CD);
+                            Ticks_Target_Has_Been_Locked_On++;
                         }
                         else
                             FSM_change_to(EN_dungeon_springtail_rider_FSM.Idle);
@@ -153,19 +153,19 @@ namespace World.Enemys.BT
 
 
                 case EN_dungeon_springtail_rider_FSM.Shoot:
-                    ticks_in_current_state++;
+                    Ticks_In_Current_State++;
 
-                    if (ticks_in_current_state >= SHOOT_END_TICK_BY_SPINE)
+                    if (Check_State_Time(SHOOT_END_TICK_BY_SPINE))
                     {
                         FSM_change_to(EN_dungeon_springtail_rider_FSM.Idle);
                         break;
                     }
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
-                        cell.dir.x = target_locked_on.Position.x - cell.pos.x;
-                        if (!Shoot_Finished && ticks_in_current_state >= SHOOT_ATK_TICK_BY_SPINE)
-                            I_Shoot.Monster_Shoot(cell, MUZZLE_BONE_NAME_IN_SPINE, target_locked_on.Position);
+                        cell.dir.x = Target_Locked_On.Position.x - cell.pos.x;
+                        if (!Shoot_Finished && Check_State_Time(SHOOT_ATK_TICK_BY_SPINE))
+                            I_Shoot.Monster_Shoot(cell, MUZZLE_BONE_NAME_IN_SPINE, Target_Locked_On.Position);
                     }
                     else
                         FSM_change_to(EN_dungeon_springtail_rider_FSM.Idle);
@@ -185,11 +185,11 @@ namespace World.Enemys.BT
         private void FSM_change_to(EN_dungeon_springtail_rider_FSM expected_FSM)
         {
             m_state = expected_FSM;
-            ticks_in_current_state = 0;
+            Ticks_In_Current_State = 0;
             switch (expected_FSM)
             {
                 case EN_dungeon_springtail_rider_FSM.Idle:
-                    target_locked_on = null;
+                    Target_Locked_On = null;
                     break;
                 case EN_dungeon_springtail_rider_FSM.Shoot:
                     Shoot_Finished = false;

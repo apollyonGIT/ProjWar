@@ -8,7 +8,7 @@ namespace World.Encounters.Dialogs
     {
         string key_name { set; }
 
-        void @do(Encounter_Dialog_Window_Btn_Option owner, string[] args);
+        void @do(IEncounter_Dialog_Window_UI owner, string[] args);
     }
 }
 

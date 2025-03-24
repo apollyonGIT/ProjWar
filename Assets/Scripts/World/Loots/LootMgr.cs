@@ -57,7 +57,8 @@ namespace World.Loots
                 acc.y += Config.current.gravity;
                 loot.velocity += acc * Config.PHYSICS_TICK_DELTA_TIME;
                 loot.velocity += (WorldContext.instance.caravan_pos - loot.pos).normalized * Config.PHYSICS_TICK_DELTA_TIME * LOOT_SPEED;
-                loot.pos += (loot.velocity + WorldContext.instance.caravan_velocity) * Config.PHYSICS_TICK_DELTA_TIME;
+                loot.velocity *= 0.99f;
+                loot.pos += (loot.velocity + new Vector2(WorldContext.instance.caravan_velocity.x, 0)) * Config.PHYSICS_TICK_DELTA_TIME;
 
                 var road_height = Road_Info_Helper.try_get_altitude(loot.pos.x);
                 if (road_height >= loot.pos.y)

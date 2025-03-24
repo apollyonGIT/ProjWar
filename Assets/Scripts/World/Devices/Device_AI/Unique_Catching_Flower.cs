@@ -1,5 +1,4 @@
 ﻿using AutoCodes;
-using System.Collections.Generic;
 using UnityEngine;
 using World.Enemys;
 using World.Enemys.BT;
@@ -222,14 +221,14 @@ namespace World.Devices
         #region PlayerControl
         public override void StartControl()
         {
-            InputController.instance.left_click_event += Attack_1;
+            InputController.instance.left_hold_event += Attack_1;
             InputController.instance.right_hold_event += Aiming;
             base.StartControl();
         }
 
         public override void EndControl()
         {
-            InputController.instance.left_click_event -= Attack_1;
+            InputController.instance.left_hold_event -= Attack_1;
             InputController.instance.right_hold_event -= Aiming;
             base.EndControl() ;
         }
@@ -245,7 +244,6 @@ namespace World.Devices
 
         private void Attack_1()
         {
-            if (InputController.instance.holding_right)
                 if (fsm == Device_Catching_Flower_FSM.idle)
                     FSM_change_to(Device_Catching_Flower_FSM.attack);
         }

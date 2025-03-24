@@ -3,18 +3,11 @@ using UnityEngine.UIElements;
 
 namespace Foundation_Editors.DialogGraphs
 {
-    public class SaveManipulator<T> : MouseManipulator where T : VisualElement
+    public class SaveManipulator : MouseManipulator
     {
         private bool isSaveKeyPressed = false;
-        T owner;
 
         //==================================================================================================
-
-        public SaveManipulator(T visualElement)
-        {
-            owner = visualElement;
-        }
-
 
         protected override void RegisterCallbacksOnTarget()
         {
@@ -45,7 +38,9 @@ namespace Foundation_Editors.DialogGraphs
             if (e.keyCode == KeyCode.S && isSaveKeyPressed)
             {
                 // 执行保存操作
-                owner.GetType().GetMethod("save")?.Invoke(owner, null);
+                var owner = target as DialogGraphView;
+                DialogGraphEditor_Utility.save_graph(owner.asset, owner);
+
                 Debug.Log("保存成功");
 
                 isSaveKeyPressed = false;

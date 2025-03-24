@@ -27,6 +27,8 @@ namespace AutoCodes
         
         public int count_max;
         
+        public System.Nullable<UnityEngine.Vector2> generate_count_area;
+        
         public int tension_min;
         
         public int tension_max;
@@ -40,6 +42,8 @@ namespace AutoCodes
         public int tide_count_addtion;
         
         public float tide_time_addtion;
+        
+        public object diy_obj;
     }
     
     public class monster_groups

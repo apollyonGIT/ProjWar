@@ -25,9 +25,9 @@ namespace Foundations.DialogGraphs
             var data = (DialogNode_Data)args[0];
             m_uname = data.uname;
 
-            m_fields.Add("title", EX_Utility.dic_force_getValue(ref data.fields, "titleText", ""));
-            m_fields.Add("content", EX_Utility.dic_force_getValue(ref data.fields, "dialogText", ""));
-            m_fields.Add("console", EX_Utility.dic_force_getValue(ref data.fields, "consoleText", ""));
+            m_fields.Add("title", EX_Utility.dic_safe_getValue(ref data.fields, "titleText", ""));
+            m_fields.Add("content", EX_Utility.dic_safe_getValue(ref data.fields, "dialogText", ""));
+            m_fields.Add("console", EX_Utility.dic_safe_getValue(ref data.fields, "consoleText", ""));
 
             List<(string, Func<object>)> output_ac_list = new();
             int index = 0;

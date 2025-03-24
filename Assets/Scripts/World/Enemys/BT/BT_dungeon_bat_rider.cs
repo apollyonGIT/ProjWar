@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Commons;
 using UnityEngine;
-using World.Helpers;
 
 namespace World.Enemys.BT
 {
@@ -87,13 +86,13 @@ namespace World.Enemys.BT
             switch (m_state)
             {
                 case EN_dungeon_bat_rider_FSM.Default:
-                    Vector2 target_pos_focus = target_locked_on == null ? ctx.caravan_pos : target_locked_on.Position;
+                    Vector2 target_pos_focus = Target_Locked_On == null ? ctx.caravan_pos : Target_Locked_On.Position;
                     I_Flyaround.Flyaround_Per_Tick(cell, target_pos_focus);
 
-                    if (target_locked_on == null)
-                        lock_target();
+                    if (Target_Locked_On == null)
+                        Lock_Target();
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
                         if (Shoot_CD <= 0)
                             FSM_change_to(EN_dungeon_bat_rider_FSM.Ready);
@@ -105,42 +104,42 @@ namespace World.Enemys.BT
                     break;
 
                 case EN_dungeon_bat_rider_FSM.Ready:
-                    if (target_locked_on == null)
+                    if (Target_Locked_On == null)
                     {
                         FSM_change_to(EN_dungeon_bat_rider_FSM.Default);
                         break;
                     }
 
-                    var delta_x = target_locked_on.Position.x - cell.pos.x;
+                    var delta_x = Target_Locked_On.Position.x - cell.pos.x;
                     if (Mathf.Abs(delta_x) >= 6f)
                         FSM_change_to(EN_dungeon_bat_rider_FSM.Shoot);
                     else
                         cell.position_expt.x += delta_x >= 0 ? -6f : 6f;
 
-                    cell.position_expt.y = Mathf.Min(cell.position_expt.y, target_locked_on.Position.y + 2f);
+                    cell.position_expt.y = Mathf.Min(cell.position_expt.y, Target_Locked_On.Position.y + 2f);
                     cell.dir.x = delta_x;
 
                     break;
 
 
                 case EN_dungeon_bat_rider_FSM.Shoot:
-                    ticks_in_current_state++;
+                    Ticks_In_Current_State++;
 
-                    if (ticks_in_current_state >= SHOOT_END_TICK_BY_SPINE)
+                    if (Check_State_Time(SHOOT_END_TICK_BY_SPINE))
                     {
                         FSM_change_to(EN_dungeon_bat_rider_FSM.Default);
-                        target_locked_on = null;
+                        Target_Locked_On = null;
                         break;
                     }
 
-                    if (target_locked_on != null)
+                    if (Target_Locked_On != null)
                     {
-                        var tp = target_locked_on.Position;
+                        var tp = Target_Locked_On.Position;
                         cell.position_expt.x = tp.x + (cell.pos.x > tp.x ? 8f : -8f);
 
-                        if (ticks_in_current_state >= SHOOT_ATK_TICK_BY_SPINE && !Shoot_Finished)
-                            I_Shoot.Monster_Shoot(cell, MUZZLE_BONE_NAME_IN_SPINE, target_locked_on.Position);
-                        cell.dir.x = target_locked_on.Position.x - cell.pos.x;
+                        if (Check_State_Time(SHOOT_ATK_TICK_BY_SPINE) && !Shoot_Finished)
+                            I_Shoot.Monster_Shoot(cell, MUZZLE_BONE_NAME_IN_SPINE, Get_Target_Pos().Value);
+                        cell.dir.x = Target_Locked_On.Position.x - cell.pos.x;
                     }
                     else
                     {
@@ -160,7 +159,7 @@ namespace World.Enemys.BT
         void FSM_change_to(EN_dungeon_bat_rider_FSM expected_fsm)
         {
             m_state = expected_fsm;
-            ticks_in_current_state = 0;
+            Ticks_In_Current_State = 0;
             switch (expected_fsm)
             {
                 case EN_dungeon_bat_rider_FSM.Shoot:

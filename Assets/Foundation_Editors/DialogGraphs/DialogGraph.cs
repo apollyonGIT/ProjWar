@@ -35,7 +35,8 @@ namespace Foundation_Editors.DialogGraphs
 
         private void OnDisable()
         {
-            HandleCloseEvent();
+            //保存提示
+            //HandleCloseEvent();
 
             rootVisualElement.Remove(m_view);
             DialogGraphEditor_Utility.open_graphName_list.Remove(graph_name);

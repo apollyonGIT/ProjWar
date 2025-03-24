@@ -18,6 +18,7 @@ namespace Foundations.Excels
             { "bool", typeof(bool) },
 
             { "Vector2", typeof(Vector2) },
+            { "Vector2?", typeof(Vector2?) },
             { "List<string>", typeof(List<string>) },
             { "uint[]", typeof(List<uint>) },
             { "int[]", typeof(List<int>) },
@@ -194,6 +195,14 @@ namespace Foundations.Excels
             ret = new(float.Parse(strs[0]), float.Parse(strs[1]));
 
             return ret;
+        }
+
+
+        static Vector2? converter_Vector2_nullable(object obj)
+        {
+            if (obj == null) return null;
+
+            return converter_Vector2(obj);
         }
 
 

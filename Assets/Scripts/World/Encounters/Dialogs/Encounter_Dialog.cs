@@ -3,7 +3,6 @@ using Foundations;
 using Foundations.DialogGraphs;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 namespace World.Encounters.Dialogs
@@ -18,6 +17,8 @@ namespace World.Encounters.Dialogs
 
         public Progresss.ProgressEvent _event;
 
+        public IDialogNode_Coder first_coder;
+
         //==================================================================================================
 
         public void init(Progresss.ProgressEvent _event)
@@ -26,13 +27,15 @@ namespace World.Encounters.Dialogs
             is_open = true;
 
             this._event = _event;
-            cache_dic = new();
 
             var path = _event.record.dialogue_graph;
+            Debug.Log(path);
             Addressable_Utility.try_load_asset(path, out DialogGraphAsset asset);
             DialogGraph_Utility.read_asset(asset, out coders_dic, out var entry_key);
 
-            coders_dic.TryGetValue(entry_key, out IDialogNode_Coder first_coder);
+            if (first_coder == null)
+                coders_dic.TryGetValue(entry_key, out first_coder);
+
             foreach (var (_, coder) in coders_dic)
             {
                 load_input(coder);
@@ -44,6 +47,8 @@ namespace World.Encounters.Dialogs
 
         public object fini(object[] args)
         {
+            cache_dic.Clear();
+
             is_open = false;
             return null;
         }
@@ -77,22 +82,28 @@ namespace World.Encounters.Dialogs
                 return;
             }
 
-            if (coder is DestroyNode_Coder)
+            if (coder is DestroyNode_Coder destroy_coder)
             {
-                coder.input = (_) => {
+                destroy_coder.coders = coders_dic;
+
+                coder.input = (args) => {
                     //规则：关闭对话时，恢复游戏
-                    Time.timeScale = 1; 
+                    Time.timeScale = 1;
+
+                    first_coder = args == null ? null : (IDialogNode_Coder)args[0];
+                    is_open = false;
 
                     Debug.Log("对话结束!"); 
+
                     return null; 
                 };
 
                 return;
             }
 
-            if (coder is JumpNode_Coder _coder)
+            if (coder is JumpNode_Coder jump_coder)
             {
-                _coder.coders = coders_dic;
+                jump_coder.coders = coders_dic;
                 return;
             }
 

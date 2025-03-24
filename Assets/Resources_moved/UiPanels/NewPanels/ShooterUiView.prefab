@@ -439,6 +439,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3220217261944338503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8979308184612517187, guid: 29058a41018140241a3bb2f1b92663fd, type: 3}
+  m_PrefabInstance: {fileID: 5777110834213014788}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4120742912321187324 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7567096760771748088, guid: 29058a41018140241a3bb2f1b92663fd, type: 3}
@@ -477,6 +488,7 @@ MonoBehaviour:
   hp: {fileID: 8116189581546029758}
   select_border: {fileID: 263375330807552035}
   mask: {fileID: 6982785337044823916}
+  ui_icon: {fileID: 3220217261944338503}
   stations:
   - {fileID: 1213114575411701364}
   joystick: {fileID: 4120742912321187324}

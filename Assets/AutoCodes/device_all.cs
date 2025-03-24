@@ -55,6 +55,8 @@ namespace AutoCodes
         
         public int hook_logic;
         
+        public int other_logic;
+        
         public System.ValueTuple<float, float> rotate_speed;
         
         public uint device_upgrade;

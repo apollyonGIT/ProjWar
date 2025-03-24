@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Unity.Plastic.Newtonsoft.Json;
 
 namespace Foundations.DialogGraphs
 {
@@ -23,7 +23,21 @@ namespace Foundations.DialogGraphs
 
         public DialogNode_Data clone()
         {
-            return (DialogNode_Data)MemberwiseClone();
+            var ret = (DialogNode_Data)MemberwiseClone();
+            ret.fields = DeepCopyFields();
+
+            return ret;
+        }
+
+
+        public Dictionary<string, object> DeepCopyFields()
+        {
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
+            string json = JsonConvert.SerializeObject(fields, settings);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(json, settings);
         }
     }
 

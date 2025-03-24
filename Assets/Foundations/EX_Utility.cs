@@ -64,9 +64,9 @@ namespace Foundations
 
 
         /// <summary>
-        /// 字典取值 - 强制
+        /// 字典取值 - 安全型
         /// </summary>
-        public static V dic_force_getValue<K, V>(ref Dictionary<K, V> dic, K k, V _default)
+        public static V dic_safe_getValue<K, V>(ref Dictionary<K, V> dic, K k, V _default)
         {
             if (!dic.ContainsKey(k))
             {

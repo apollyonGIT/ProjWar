@@ -2,11 +2,18 @@
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace World.Encounters.Dialogs
 {
     public class Encounter_Dialog_Console
     {
+        static string[] ui_type_array = new[] 
+        {
+            "btn",
+            "dialog",
+            "title",
+        };
 
         //==================================================================================================
 
@@ -22,24 +29,50 @@ namespace World.Encounters.Dialogs
                 var target_info = infos[0];
 
                 var cpn_infos = infos[1].Split(new[] { '(', ')' });
-                var cpn_name = cpn_infos[0];
+                var cpn_name_info = cpn_infos[0];
+                var cpn_name = cpn_name_info.Split('$')[0];
                 var cpn_prms = EX_Utility.string_safe_split(cpn_infos[1], ",");
 
-                if (target_info.Contains("btn"))
+                foreach (var ui_type in ui_type_array)
                 {
-                    var option_index = int.Parse(target_info["btn".Length..]);
-                    var option = window.btn_options[option_index];
+                    if (target_info.Contains(ui_type))
+                    {
+                        var ui = (IEncounter_Dialog_Window_UI)typeof(Encounter_Dialog_Console).GetMethod($"{ui_type}_attacher")
+                            .Invoke(null, new object[] { window, target_info });
 
-                    var cpn_type = Assembly.Load("World").GetType($"World.Encounters.Dialogs.{cpn_name}");
-                    var cpn = option.gameObject.AddComponent(cpn_type);
-                    
-                    var icpn = cpn as IEncounter_Dialog_CPN;
-                    icpn.key_name = $"{uname}_{target_info}_{cpn_name}";
-                    icpn.@do(option, cpn_prms);
+                        var cpn_type = Assembly.Load("World").GetType($"World.Encounters.Dialogs.{cpn_name}");
+                        var cpn = ui.gameObject.AddComponent(cpn_type);
+
+                        var icpn = cpn as IEncounter_Dialog_CPN;
+                        icpn.key_name = $"{uname}_{target_info}_{cpn_name_info}";
+                        icpn.@do(ui, cpn_prms);
+
+                        break;
+                    }
                 }
             }
         }
 
+
+        public static IEncounter_Dialog_Window_UI btn_attacher(Encounter_Dialog_Window window, string target_info)
+        {
+            var option_index = int.Parse(target_info["btn".Length..]);
+            var option = window.btn_options[option_index];
+
+            return option;
+        }
+
+
+        public static IEncounter_Dialog_Window_UI dialog_attacher(Encounter_Dialog_Window window, string target_info)
+        {
+            return window.dialog;
+        }
+
+
+        public static IEncounter_Dialog_Window_UI title_attacher(Encounter_Dialog_Window window, string target_info)
+        {
+            return window.title;
+        }
     }
 }
 

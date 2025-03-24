@@ -22,6 +22,10 @@ namespace AutoCodes
         public string behaviour_script = "";
         
         public string description = "";
+        
+        public string name = "";
+        
+        public object diy_obj;
     }
     
     public class relics

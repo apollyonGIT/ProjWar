@@ -78,7 +78,7 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
                     ""id"": ""2a1d6209-5a45-4981-9d81-d2325e7fca35"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""Tap(duration=1.401298E-45,pressPoint=1.401298E-45),Hold(duration=1.401298E-45,pressPoint=1.401298E-45)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -94,6 +94,51 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
                     ""name"": ""Del"",
                     ""type"": ""Button"",
                     ""id"": ""50935d2f-9ab5-47c6-bbc8-3d0c3112e793"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PullUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b885522-ce36-4b1e-b939-12c0d19e6ed5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap(duration=1.401298E-45,pressPoint=1.401298E-45),Hold(duration=1.401298E-45,pressPoint=1.401298E-45)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PullDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""77996616-8e47-441d-ad68-9df36ffeab28"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap(duration=1.401298E-45,pressPoint=1.401298E-45),Hold(duration=1.401298E-45,pressPoint=1.401298E-45)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Button"",
+                    ""id"": ""41b07fe5-1d50-46fd-8975-09a3b9254c7a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Load"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ecf78aa-1475-443e-b034-986225e03c2d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushCar"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef381eec-6204-4e8b-aada-eac017fe5ed0"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -159,7 +204,7 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bee15867-b59a-4e45-84fc-b3e51a811d3e"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -188,6 +233,61 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
                     ""action"": ""Del"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44e5ebb6-3ad5-40cf-901c-961bd45d9d47"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PullUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e9e846a-1046-4b4f-839e-3907a3d97163"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PullDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""691104fa-aa57-46be-883a-a6726107cfed"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da947b96-edc8-4e40-aaab-946f86b60f3b"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": ""Press(pressPoint=1.401298E-45)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6c16373-c3bc-492c-b574-7db1cb5e3df7"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushCar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -204,6 +304,11 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
         m_GamePlay_LeftClick = m_GamePlay.FindAction("LeftClick", throwIfNotFound: true);
         m_GamePlay_Esc = m_GamePlay.FindAction("Esc", throwIfNotFound: true);
         m_GamePlay_Del = m_GamePlay.FindAction("Del", throwIfNotFound: true);
+        m_GamePlay_PullUp = m_GamePlay.FindAction("PullUp", throwIfNotFound: true);
+        m_GamePlay_PullDown = m_GamePlay.FindAction("PullDown", throwIfNotFound: true);
+        m_GamePlay_Brake = m_GamePlay.FindAction("Brake", throwIfNotFound: true);
+        m_GamePlay_Load = m_GamePlay.FindAction("Load", throwIfNotFound: true);
+        m_GamePlay_PushCar = m_GamePlay.FindAction("PushCar", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +378,11 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_LeftClick;
     private readonly InputAction m_GamePlay_Esc;
     private readonly InputAction m_GamePlay_Del;
+    private readonly InputAction m_GamePlay_PullUp;
+    private readonly InputAction m_GamePlay_PullDown;
+    private readonly InputAction m_GamePlay_Brake;
+    private readonly InputAction m_GamePlay_Load;
+    private readonly InputAction m_GamePlay_PushCar;
     public struct GamePlayActions
     {
         private @Control_1 m_Wrapper;
@@ -285,6 +395,11 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
         public InputAction @LeftClick => m_Wrapper.m_GamePlay_LeftClick;
         public InputAction @Esc => m_Wrapper.m_GamePlay_Esc;
         public InputAction @Del => m_Wrapper.m_GamePlay_Del;
+        public InputAction @PullUp => m_Wrapper.m_GamePlay_PullUp;
+        public InputAction @PullDown => m_Wrapper.m_GamePlay_PullDown;
+        public InputAction @Brake => m_Wrapper.m_GamePlay_Brake;
+        public InputAction @Load => m_Wrapper.m_GamePlay_Load;
+        public InputAction @PushCar => m_Wrapper.m_GamePlay_PushCar;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -318,6 +433,21 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
             @Del.started += instance.OnDel;
             @Del.performed += instance.OnDel;
             @Del.canceled += instance.OnDel;
+            @PullUp.started += instance.OnPullUp;
+            @PullUp.performed += instance.OnPullUp;
+            @PullUp.canceled += instance.OnPullUp;
+            @PullDown.started += instance.OnPullDown;
+            @PullDown.performed += instance.OnPullDown;
+            @PullDown.canceled += instance.OnPullDown;
+            @Brake.started += instance.OnBrake;
+            @Brake.performed += instance.OnBrake;
+            @Brake.canceled += instance.OnBrake;
+            @Load.started += instance.OnLoad;
+            @Load.performed += instance.OnLoad;
+            @Load.canceled += instance.OnLoad;
+            @PushCar.started += instance.OnPushCar;
+            @PushCar.performed += instance.OnPushCar;
+            @PushCar.canceled += instance.OnPushCar;
         }
 
         private void UnregisterCallbacks(IGamePlayActions instance)
@@ -346,6 +476,21 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
             @Del.started -= instance.OnDel;
             @Del.performed -= instance.OnDel;
             @Del.canceled -= instance.OnDel;
+            @PullUp.started -= instance.OnPullUp;
+            @PullUp.performed -= instance.OnPullUp;
+            @PullUp.canceled -= instance.OnPullUp;
+            @PullDown.started -= instance.OnPullDown;
+            @PullDown.performed -= instance.OnPullDown;
+            @PullDown.canceled -= instance.OnPullDown;
+            @Brake.started -= instance.OnBrake;
+            @Brake.performed -= instance.OnBrake;
+            @Brake.canceled -= instance.OnBrake;
+            @Load.started -= instance.OnLoad;
+            @Load.performed -= instance.OnLoad;
+            @Load.canceled -= instance.OnLoad;
+            @PushCar.started -= instance.OnPushCar;
+            @PushCar.performed -= instance.OnPushCar;
+            @PushCar.canceled -= instance.OnPushCar;
         }
 
         public void RemoveCallbacks(IGamePlayActions instance)
@@ -373,5 +518,10 @@ public partial class @Control_1: IInputActionCollection2, IDisposable
         void OnLeftClick(InputAction.CallbackContext context);
         void OnEsc(InputAction.CallbackContext context);
         void OnDel(InputAction.CallbackContext context);
+        void OnPullUp(InputAction.CallbackContext context);
+        void OnPullDown(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
+        void OnLoad(InputAction.CallbackContext context);
+        void OnPushCar(InputAction.CallbackContext context);
     }
 }

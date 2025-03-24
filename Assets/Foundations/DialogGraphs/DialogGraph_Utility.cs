@@ -23,8 +23,11 @@ namespace Foundations.DialogGraphs
                 {
                     entry_key = i_node_GUID;
 
-                    IDialogNode_Coder coder = create_coder(i_node_GUID, asset_nodes);
-                    upd_node(coders_dic, i_node_GUID, coder);
+                    if (!coders_dic.ContainsKey(i_node_GUID))
+                    {
+                        IDialogNode_Coder coder = create_coder(i_node_GUID, asset_nodes);
+                        upd_node(coders_dic, i_node_GUID, coder);
+                    }
 
                     continue;
                 }
@@ -32,7 +35,7 @@ namespace Foundations.DialogGraphs
                 IDialogNode_Coder o_coder;
                 if (!coders_dic.ContainsKey(o_node_GUID))
                 {
-                    o_coder = create_coder(i_node_GUID, asset_nodes);
+                    o_coder = create_coder(o_node_GUID, asset_nodes);
                     upd_node(coders_dic, o_node_GUID, o_coder);
                 }
                 else

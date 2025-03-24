@@ -26,6 +26,8 @@ namespace AutoCodes
         public System.Collections.Generic.Dictionary<string, int> device;
         
         public string ai = "";
+        
+        public object diy_obj;
     }
     
     public class sub_monster_cars

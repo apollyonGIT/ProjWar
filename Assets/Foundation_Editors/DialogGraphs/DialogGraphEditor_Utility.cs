@@ -22,7 +22,7 @@ namespace Foundation_Editors.DialogGraphs
         }
 
 
-        public static Edge create_edge(Port output, Port input)
+        public static Edge create_edge(DialogGraphView view, Port output, Port input)
         {
             Edge edge = new()
             {
@@ -33,6 +33,8 @@ namespace Foundation_Editors.DialogGraphs
             edge.input.Connect(edge);
             edge.output.Connect(edge);
 
+            view.Add(edge);
+
             return edge;
         }
 
@@ -41,10 +43,10 @@ namespace Foundation_Editors.DialogGraphs
         {
             var menu = evt.menu;
 
-            menu.AppendAction("DialogWindow Node", (ac) => { view.AddElement(DialogWindowNode.create_node("DialogWindow", ac.eventInfo.mousePosition, view)); });
-            menu.AppendAction("Destroy Node", (ac) => { view.AddElement(DestroyNode.create_node("Destroy", ac.eventInfo.mousePosition, view)); });
-            menu.AppendAction("Jump Node", (ac) => { view.AddElement(JumpNode.create_node("Jump", ac.eventInfo.mousePosition, view)); });
-            menu.AppendAction("Parallel Node", (ac) => { view.AddElement(ParallelNode.create_node("Parallel", ac.eventInfo.mousePosition, view)); });
+            menu.AppendAction("DialogWindow Node", (ac) => { view.AddElement(DialogWindowNode.create_node_init("DialogWindow", ac.eventInfo.mousePosition, view)); });
+            menu.AppendAction("Destroy Node", (ac) => { view.AddElement(DestroyNode.create_node_init("Destroy", ac.eventInfo.mousePosition, view)); });
+            menu.AppendAction("Jump Node", (ac) => { view.AddElement(JumpNode.create_node_init("Jump", ac.eventInfo.mousePosition, view)); });
+            menu.AppendAction("Parallel Node", (ac) => { view.AddElement(ParallelNode.create_node_init("Parallel", ac.eventInfo.mousePosition, view)); });
         }
 
 
@@ -100,8 +102,7 @@ namespace Foundation_Editors.DialogGraphs
                     }
                 }
 
-                var edge = create_edge(o_port, i_port);
-                view.Add(edge);
+                create_edge(view, o_port, i_port);
             }
         }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using World.Devices;
 using TMPro;
-using World.Devices.NewDevice;
+using World.Devices.Device_AI;
 using World.Devices.DeviceViews;
 
 public class BulletCounter : MonoBehaviour

@@ -445,12 +445,16 @@ namespace World
         public int armor_piercing;
         public int critical_chance;
         public int critical_rate;
+
+        public float ignite;
     }
 
 
     public struct Defense_Data
     {
         public int def;
+
+        public float fire_value;
     }
 
 

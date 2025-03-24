@@ -27,6 +27,7 @@ namespace World.Relic
             { "TitanEnemyRelic",()=> new TitanEnemyRelic()},
             { "DifficultModeRelic",()=> new DifficultModeRelic()},
             { "LuckyDogRelic",()=> new LuckyDogRelic()},
+            { "CriticalRelic",() => new CriticalRelic()},
         };
         string IMgr.name => m_mgr_name;
         readonly string m_mgr_name;
