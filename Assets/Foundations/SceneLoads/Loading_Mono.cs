@@ -28,13 +28,23 @@ namespace Foundations
         private IEnumerator DownloadAndLoadScene()
         {
             m_sceneLoadHandle = Addressables.LoadSceneAsync(m_next_scene_key, UnityEngine.SceneManagement.LoadSceneMode.Single, activateOnLoad: true);
+            m_sceneLoadHandle.Completed += M_sceneLoadHandle_Completed;
+
             while (!m_sceneLoadHandle.IsDone)
             {
                 UpdateProgress(m_sceneLoadHandle.PercentComplete);
                 yield return null;
             }
+
+            #region 子函数 load_success
+            void M_sceneLoadHandle_Completed(AsyncOperationHandle<SceneInstance> obj)
+            {
+                Debug.Log($"【{m_next_scene_key}】场景加载成功！");
+            }
+            #endregion
         }
 
+        
 
         void UpdateProgress(float progress)
         {

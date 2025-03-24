@@ -38,96 +38,10 @@ namespace Commons
         public float scaled_pixel_per_unit { get; set; } = 100;
 
         public Vector2Int desiredResolution = new Vector2Int(1920, 1080);
-
         public float desiredPerspectiveFOV = 60;
 
-        [Foldout("主界面")] public string main_menu_website_weibo = "https://weibo.com/u/1002143827";
-        [Foldout("主界面")] public string main_menu_website_bilibili = "https://space.bilibili.com/423895";
-        [Foldout("主界面")] public string main_menu_website_bug_report;
-
-        [Foldout("存档")]
-        public string save_00_path = @"D:\save_00.dat";
-
-        [Foldout("车体运动 - 车身旋转")] public float caravan_rotate_angle_limit = 60f;  // FT沿用
-        [Foldout("车体运动 - 车身旋转")] public float caravan_rotation_damp_1 = 60f; // FT沿用
-        [Foldout("车体运动 - 车身旋转")] public float caravan_rotation_damp_2 = 6f; // FT沿用
-
-        [Foldout("YH 车体运动")] public float gravity = -10f;
-        [Foldout("YH 车体运动")] public float acc_braking = -30f;
-        [Foldout("YH 车体运动")] public float caravan_bounce_coefficient = 0.6f;
-        [Foldout("YH 车体运动")] public float caravan_bounce_loss = 500f;
-
-        [Foldout("主菜单界面 - 测试关卡入口")] public Vector2Int test_level_body_id;
-        [Foldout("主菜单界面 - 测试关卡入口")] public uint test_level_world_id;
-        [Foldout("主菜单界面 - 测试关卡入口")] public uint test_level_level_id;
-        [Foldout("主菜单界面 - 测试关卡入口")] public bool show_test_level;
-
-        [Foldout("场景切换/场景名UI")]
-        public float scene_title_fade_out_time;
-        [Foldout("场景切换/场景名UI")]
-        public float scene_title_lasting_time;
-
-        [Foldout("YH Game Init 初始化")] public string first_load_scene = "InitScene"; //首次加载scene
-        [Foldout("YH Game Init 初始化")] public uint caravan_id = 100000000u;
-        [Foldout("YH Game Init 初始化")] public uint init_wheel = 1210101u;
-        [Foldout("YH Game Init 初始化")] public uint init_device_in_slot_top;
-        [Foldout("YH Game Init 初始化")] public uint init_device_in_slot_front_top;
-        [Foldout("YH Game Init 初始化")] public uint init_device_in_slot_back_top;
-        [Foldout("YH Game Init 初始化")] public uint init_device_in_slot_front;
-        [Foldout("YH Game Init 初始化")] public uint init_device_in_slot_back;
-        [Foldout("YH Game Init 初始化")] public List<int> init_roles;
-
-        [Foldout("YH Backpack 背包")] public float per_overweight_slot_weight = 300;
-        [Foldout("YH Backpack 背包")] public int basic_backpack_slot_num = 5;
-
-        [Foldout("YH Camera 镜头运动")] public float travel_scene_camera_offset_x;  // FT沿用
-        [Foldout("YH Camera 镜头运动")] public float cam_pos_offset_y;
-        [Foldout("YH Camera 镜头运动")] public float cam_pos_offset_z;
-        [Foldout("YH Camera 镜头运动")] public bool free_camera;
-
-        [Foldout("YH Encounter 奇遇事件")] public float trigger_length = 25;
-        [Foldout("YH Encounter 奇遇事件")] public float notice_length_1 = 50f;
-        [Foldout("YH Encounter 奇遇事件")] public float notice_length_2 = 10f;
-
-        [Foldout("YH Hookrope 钩索")] public float rope_max_length;
-        [Foldout("YH Hookrope 钩索")] public float rope_min_length;
-        [Foldout("YH Hookrope 钩索")] public float rope_elasticity;
-
-        [Foldout("YH Loot 掉落物")] public float loot_pickup_distance = 0.1f;
-        [Foldout("YH Loot 掉落物")] public float loot_attraction_power = 20f;
-        [Foldout("YH Loot 掉落物")] public float coin_surface_bounce_coef = 1f;
-        [Foldout("YH Loot 掉落物")] public float caravan_vel2_screen_bounce = 0.5f;
-
-        [Foldout("YH Monster 怪物")] public float monster_grip = 35f;
-        [Foldout("YH Monster 怪物")] public float fling_off_dis = 40f;
-
-        [Foldout("YH Monster_Tide 兽潮")] public float pressure_threshold = 2000f;
-        [Foldout("YH Monster_Tide 兽潮")] public int time_pressure_min = 15;
-        [Foldout("YH Monster_Tide 兽潮")] public int time_pressure_max = 60;
-        [Foldout("YH Monster_Tide 兽潮")] public int pressure_kill_score = 40;
-
-        [Foldout("YH Projectile 飞射物")] public float bullet_bounce_threshold_ekmin = 100f;
-        [Foldout("YH Projectile 飞射物")] public float bullet_surface_bounce_coef = 0.5f;
-        [Foldout("YH Projectile 飞射物")] public float bullet_bounce_threshold_vmax = 20f;
-        [Foldout("YH Projectile 飞射物")] public float surface_friction = 0.3f;
-        [Foldout("YH Projectile 飞射物")] public float arrow_penetration_loss = 10f;
-        [Foldout("YH Projectile 飞射物")] public float bullet_penetration_loss = 6f;
-        [Foldout("YH Projectile 飞射物")] public float bullet_enemy_bounce_coef = 0.2f;
-
-        [Foldout("YH Repair 维修")] public int repairing_counts = 3;
-        [Foldout("YH Repair 维修")] public int repairing_cd_ticks = 720;
-
-        [Foldout("YH VFX_Device_Damaged 设备损毁特效")] public string devicedestroy_vfx;
-        [Foldout("YH VFX_Device_Damaged 设备损毁特效")] public string devicesmoke_vfx;
-
-        [Foldout("YH Work 工作")] public int normal_work_ability;
-        [Foldout("YH Work 工作")] public float fix_device_job_effect = 0.05f;
-        [Foldout("YH Work 工作")] public float fix_caravan_job_effect = 0.02f;
-
-        [Foldout("YH测试")] public bool is_load_devices = true;
-        [Foldout("YH测试")] public bool is_load_enemys = true;
-
-        [Foldout("YH Audio 音频")] public string audio_test;
+        [Header("YH Game Init 初始化")] 
+        public string first_load_scene = "InitScene"; //首次加载scene
 
         #region const
         //帧率

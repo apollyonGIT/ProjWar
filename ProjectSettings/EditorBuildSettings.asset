@@ -15,14 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/InitScene.unity
     guid: ad7ba0137fee2db41a04a9ca7e1405dc
   - enabled: 1
-    path: Assets/Scenes/CampScene.unity
-    guid: b1bdb525ec8f7cc458f056a5d111f01d
-  - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: 7de2183c814fb5a4796365a8804e8832
-  - enabled: 0
-    path: Assets/Demo1.0/CaravanTest.unity
-    guid: 8333fe1536a2f034eaf32aac100a1853
+    path: Assets/Scenes/WorldScene.unity
+    guid: 473f02838ce436a4ab35296667901c17
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 9e3560696f1c5f94ea9e7dea0f56d302, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 92fcab0e08ac61d4b9560b1ec33ccd53, type: 2}

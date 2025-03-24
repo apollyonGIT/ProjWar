@@ -27,11 +27,11 @@ namespace Foundations.SceneLoads
                     if (mode == LoadSceneMode.Additive)
                         Share_DS.instance.add(key, handle.Result);
 
-                    Debug.Log("场景加载成功！");
+                    Debug.Log($"【{key}】场景加载成功！");
                 }
                 else
                 {
-                    Debug.LogError($"场景加载失败: {handle.OperationException}");
+                    Debug.LogError($"【{key}】场景加载失败: {handle.OperationException}");
                 }
             }
             #endregion
@@ -48,11 +48,11 @@ namespace Foundations.SceneLoads
                 if (mode == LoadSceneMode.Additive)
                     Share_DS.instance.add(key, handle.Result);
 
-                Debug.Log("场景加载成功！");
+                Debug.Log($"【{key}】场景加载成功！");
             }
             else
             {
-                Debug.LogError($"场景加载失败: {handle.OperationException}");
+                Debug.LogError($"【{key}】场景加载失败: {handle.OperationException}");
             }
         }
 
@@ -65,7 +65,7 @@ namespace Foundations.SceneLoads
             {
                 Share_DS.instance.remove(key);
 
-                Debug.Log("场景已卸载！");
+                Debug.Log($"【{key}】场景已卸载！");
             };
         }
     }

@@ -1,5 +1,4 @@
-﻿using Commons;
-using Foundations;
+﻿using Foundations;
 using Foundations.SceneLoads;
 using UnityEngine;
 
@@ -9,13 +8,12 @@ namespace Init
     {
         public GameObject go_btn_continue_game;
 
+        const string m_next_scene_name = "WorldScene";
+
         //==================================================================================================
 
         protected override void on_init()
         {
-            Share_DS.instance.try_get_value(Game_Mgr.key_is_continue_game, out bool is_continue_game);
-            go_btn_continue_game.SetActive(is_continue_game);
-
             base.on_init();
         }
 
@@ -28,23 +26,18 @@ namespace Init
 
         public void btn_start_new_game()
         {
-            Game_Mgr.on_start_new_game();
-
-            SceneLoad_Utility.load_scene("CampScene");
+            SceneLoad_Utility.load_scene_with_loading(m_next_scene_name);
         }
 
 
         public void btn_continue_game()
         {
-            Game_Mgr.on_continue_game();
-
-            SceneLoad_Utility.load_scene("CampScene");
+            SceneLoad_Utility.load_scene_with_loading(m_next_scene_name);
         }
 
 
         public void btn_exit()
         {
-            Game_Mgr.on_exit_game();
 
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
